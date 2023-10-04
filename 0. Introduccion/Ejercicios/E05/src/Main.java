@@ -12,15 +12,15 @@
 public class Main {
     public static void main(String[] args) {
         Hora miHora = new Hora(12, 30);
-        System.out.println(miHora.toString()); // Imprime "12:30"
+        System.out.println(miHora.toString());
 
         miHora.inc();
-        System.out.println(miHora.toString()); // Imprime "12:31"
+        System.out.println(miHora.toString());
 
         miHora.setMinutos(45);
-        System.out.println(miHora.toString()); // Imprime "12:45"
+        System.out.println(miHora.toString());
 
         miHora.setHora(23);
-        System.out.println(miHora.toString()); // Imprime "23:45"
+        System.out.println(miHora.toString()); //
     }
 }
