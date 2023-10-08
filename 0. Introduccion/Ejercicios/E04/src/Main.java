@@ -14,69 +14,62 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        // Pedir el nombre y la fecha de nacimiento de la primera persona
-        System.out.print("Introduce primer nombre: ");
-        String nombre1 = scanner.nextLine();
-        LocalDate fechaNacimiento1 = pedirFecha(scanner, "Introduce primera fecha de nacimiento [dd/mm/aaaa]: ", dateFormat);
+        System.out.print("Enter the name of the first person: ");
+        String name1 = sc.nextLine();
+        LocalDate date1 = askAge(sc, dateFormat);
 
-        // Pedir el nombre y la fecha de nacimiento de la segunda persona
-        System.out.print("Introduce segundo nombre: ");
-        String nombre2 = scanner.nextLine();
-        LocalDate fechaNacimiento2 = pedirFecha(scanner, "Introduce segunda fecha de nacimiento [dd/mm/aaaa]: ", dateFormat);
+        System.out.print("Enter the name of the second person: ");
+        String name2 = sc.nextLine();
+        LocalDate date2 = askAge(sc, dateFormat);
 
-        // Calcular edades
-        int edad1 = calcularEdad(fechaNacimiento1);
-        int edad2 = calcularEdad(fechaNacimiento2);
+        int age1 = calculateAge(date1);
+        int age2 = calculateAge(date2);
 
-        // Determinar quién es menor
-        String personaMenor, personaMayor;
-        if (edad1 < edad2) {
-            personaMenor = nombre1;
-            personaMayor = nombre2;
-        } else if (edad2 < edad1) {
-            personaMenor = nombre2;
-            personaMayor = nombre1;
-        } else {
-            System.out.println("Ambas personas tienen la misma edad.");
-            scanner.close();
+        String youngest, oldest;
+        if (age1 < age2) {
+            youngest = name1;
+            oldest = name2;
+        }
+        else if (age2 < age1) {
+            youngest = name2;
+            oldest = name1;
+        }
+        else {
+            System.out.println("Both are the same age.");
             return;
         }
 
-        // Mostrar resultados
-        System.out.println(personaMenor + " es menor");
-        System.out.println(nombre1 + " tiene " + edad1 + " años y " + nombre2 + " tiene " + edad2 + " años.");
-
-        scanner.close();
+        System.out.println(youngest + " is youngest");
+        System.out.println(name1 + " has " + age1 + " years old and " + name2 + " has " + age2 + " years old");
     }
 
-    private static LocalDate pedirFecha(Scanner scanner, String mensaje, DateTimeFormatter dateFormat) {
-        LocalDate fecha = null;
-        while (fecha == null) {
-            System.out.print(mensaje);
-            String fechaStr = scanner.nextLine();
+    private static LocalDate askAge(Scanner sc, DateTimeFormatter dateFormat) {
+        LocalDate date = null;
+        while (date == null) {
+            System.out.print("Enter date of birth [dd/mm/aaaa]: ");
+            String dateString = sc.nextLine();
             try {
-                fecha = LocalDate.parse(fechaStr, dateFormat);
-            } catch (DateTimeParseException e) {
-                System.out.println("Formato de fecha incorrecto. Debe ser dd/mm/aaaa.");
+                date = LocalDate.parse(dateString, dateFormat);
+            }
+            catch (DateTimeParseException e) {
+                System.out.println("ERROR: INCORRECT FORMAT DATE");
             }
         }
-        return fecha;
+        return date;
     }
 
-    private static int calcularEdad(LocalDate fechaNacimiento) {
-        LocalDate fechaActual = LocalDate.now();
-        int edad = fechaActual.getYear() - fechaNacimiento.getYear();
+    private static int calculateAge(LocalDate birthDate) {
+        LocalDate actualDate = LocalDate.now();
+        int age = actualDate.getYear() - birthDate.getYear();
 
-        // Ajustar la edad si el mes actual es anterior al mes de nacimiento o si es el mismo mes pero el día actual es anterior al día de nacimiento
-        if (fechaActual.getMonth().compareTo(fechaNacimiento.getMonth()) < 0 ||
-                (fechaActual.getMonth().compareTo(fechaNacimiento.getMonth()) == 0 &&
-                        fechaActual.getDayOfMonth() < fechaNacimiento.getDayOfMonth())) {
-            edad--;
+        if (actualDate.getMonth().compareTo(birthDate.getMonth()) < 0
+                || (actualDate.getMonth().compareTo(birthDate.getMonth()) == 0
+                && actualDate.getDayOfMonth() < birthDate.getDayOfMonth())) {
+            age--;
         }
-
-        return edad;
+        return age;
     }
 }

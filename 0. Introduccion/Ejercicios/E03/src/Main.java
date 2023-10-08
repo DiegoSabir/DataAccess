@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public class Main {
 
-    // Función para obtener la parte entera de un número double
     public static int getParteEntera(double numero) {
         // Convierte el número double a una cadena de caracteres
         String numeroStr = Double.toString(numero);

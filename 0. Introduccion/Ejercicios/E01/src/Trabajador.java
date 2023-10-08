@@ -13,10 +13,10 @@ public class Trabajador {
 
     public Trabajador(String nombre, int edad, int categoria, int antiguedad) {
         if (categoria < CAT_EMPLEADO || categoria > CAT_DIRECTIVO) {
-            throw new CategoriaExcepcion("ERROR: Categoria incorrecta");
+            throw new CategoriaExcepcion("ERROR: INCORRECT CATEGORY");
         }
         if (antiguedad < ANT_NOVATO || antiguedad > ANT_EXPERTO) {
-            throw new AntiguedadExcepcion("ERROR: Antigüedad incorrecta");
+            throw new AntiguedadExcepcion("ERROR: INCORRECT CAREER");
         }
     }
 
@@ -89,7 +89,7 @@ public class Trabajador {
                 }
                 break;
             default:
-                System.out.println("Opción no válida");
+                System.out.println("INVALID OPTION");
                 break;
         }
 

@@ -1,8 +1,9 @@
 public class Main {
     public static void main(String[] args) {
-        String textoOriginal = "HELLO WORLD";
-        String textoCifrado = CifradoCesar.cifradoCesar(textoOriginal);
-        System.out.println("Texto original: " + textoOriginal);
-        System.out.println("Texto cifrado: " + textoCifrado);
+        System.out.println("Enter a text:");
+        String original = "Hello my name is Diego";
+        String coded = cesarCoded.cesarCoded(original);
+        System.out.println("Original: " + original);
+        System.out.println("Coded: " + coded);
     }
 }

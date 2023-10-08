@@ -11,16 +11,16 @@
  */
 public class Main {
     public static void main(String[] args) {
-        Hora miHora = new Hora(12, 30);
-        System.out.println(miHora.toString());
+        Hour hour = new Hour(21, 12);
+        System.out.println(hour.toString());
 
-        miHora.inc();
-        System.out.println(miHora.toString());
+        hour.inc();
+        System.out.println(hour.toString());
 
-        miHora.setMinutos(45);
-        System.out.println(miHora.toString());
+        hour.setMinute(45);
+        System.out.println(hour.toString());
 
-        miHora.setHora(23);
-        System.out.println(miHora.toString()); //
+        hour.setHour(23);
+        System.out.println(hour.toString()); //
     }
 }
