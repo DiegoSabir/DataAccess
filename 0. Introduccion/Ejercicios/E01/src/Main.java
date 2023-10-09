@@ -1,12 +1,11 @@
 public class Main {
     public static void main(String[] args) {
+        Worker worker1 = new Worker("Diego", 24, Worker.CAT_EMPLOYEE, Worker.SEN_JUNIOR);
 
-        Trabajador empleado1 = new Trabajador("Juan", 30, Trabajador.CAT_EMPLEADO, Trabajador.ANT_MADURO);
-        System.out.println("Nombre: " + empleado1.getNombre());
-        System.out.println("Edad: " + empleado1.getEdad());
-        System.out.println("Categoría: " + empleado1.getCategoria());
-        System.out.println("Antigüedad: " + empleado1.getAntiguedad());
-        System.out.println("Sueldo: " + empleado1.calcularSueldo());
-
+        System.out.println("Name: " + worker1.getName());
+        System.out.println("Age: " + worker1.getAge());
+        System.out.println("Category: " + worker1.getCategory());
+        System.out.println("Seniority: " + worker1.getSeniority());
+        System.out.println("Salary: " + worker1.calculateSalary());
     }
 }

@@ -11,73 +11,67 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static int getParteEntera(double numero) {
-        // Convierte el número double a una cadena de caracteres
-        String numeroStr = Double.toString(numero);
+    public static int getIntegerPart(double number) {
+        String stringNumber = Double.toString(number);
 
-        // Encuentra la posición del punto decimal
-        int puntoPos = numeroStr.indexOf('.');
+        int decimalPointPosition  = stringNumber.indexOf('.');
 
-        // Extrae la parte entera como una subcadena
-        String parteEnteraStr = numeroStr.substring(0, puntoPos);
+        String integerPartString = stringNumber.substring(0, decimalPointPosition );
 
-        // Convierte la parte entera a un entero
-        int parteEntera = Integer.parseInt(parteEnteraStr);
+        int intergerPart = Integer.parseInt(integerPartString);
 
-        return parteEntera;
+        return intergerPart;
     }
 
-    // Función para obtener la parte decimal de un número double
-    public static int getParteDecimal(double numero) {
-        // Convierte el número double a una cadena de caracteres
-        String numeroStr = Double.toString(numero);
+    public static int getDecimalPart(double number) {
+        String stringNumber = Double.toString(number);
 
-        // Encuentra la posición del punto decimal
-        int puntoPos = numeroStr.indexOf('.');
+        int decimalPointPosition = stringNumber.indexOf('.');
 
-        // Extrae la parte decimal como una subcadena
-        String parteDecimalStr = numeroStr.substring(puntoPos + 1);
+        String decimalPartString  = stringNumber.substring(decimalPointPosition + 1);
 
-        // Convierte la parte decimal a un entero
-        int parteDecimal = Integer.parseInt(parteDecimalStr);
+        int decimalPart  = Integer.parseInt(decimalPartString);
 
-        return parteDecimal;
+        return decimalPart ;
     }
 
-    public static void main(String[] args) {
+    public static void menu() {
         Scanner scanner = new Scanner(System.in);
-        double numero;
+        double number;
 
         do {
-            System.out.print("Introduce un número (o 0 para salir): ");
-            numero = scanner.nextDouble();
+            System.out.print("Enter a number (0 to exit): ");
+            number = scanner.nextDouble();
 
-            if (numero != 0) {
-                System.out.println("1. Obtener parte entera");
-                System.out.println("2. Obtener parte decimal");
-                System.out.println("3. Salir");
-                System.out.print("Elije una opción: ");
-                int opcion = scanner.nextInt();
+            if (number != 0) {
+                System.out.println("1. Get integer part");
+                System.out.println("2. Get decimal part");
+                System.out.println("3. Exit");
+                System.out.print("Choose an option: ");
+                int choice = scanner.nextInt();
 
-                switch (opcion) {
+                switch (choice) {
                     case 1:
-                        int parteEntera = getParteEntera(numero);
-                        System.out.println("Parte entera: " + parteEntera);
+                        int integerPart = getIntegerPart(number);
+                        System.out.println("Integer part: " + integerPart);
                         break;
                     case 2:
-                        int parteDecimal = getParteDecimal(numero);
-                        System.out.println("Parte decimal: " + parteDecimal);
+                        int decimalPart = getDecimalPart(number);
+                        System.out.println("Decimal part: " + decimalPart);
                         break;
                     case 3:
-                        System.out.println("Saliendo del programa...");
+                        System.out.println("Exiting");
                         break;
                     default:
-                        System.out.println("Opción no válida.");
+                        System.out.println("ERROR: INVALID OPTION.");
                         break;
                 }
             }
-        } while (numero != 0);
+        } while (number != 0);
 
         scanner.close();
+    }
+    public static void main(String[] args) {
+        menu();
     }
 }
