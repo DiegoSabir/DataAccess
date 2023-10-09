@@ -37,6 +37,7 @@ public class MenuMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setLabel("Add Student");
+        jButton1.setName("Boton1"); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -44,6 +45,11 @@ public class MenuMain extends javax.swing.JFrame {
         });
 
         jButton2.setLabel("Add Subject");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setLabel("See Student");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -100,12 +106,21 @@ public class MenuMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        JDAddStudent jdas = new JDAddStudent(this, true);
+        jdas.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+  
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        JDSeeStudent jdss = new JDSeeStudent(this, true);
+        jdss.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JDAddSubject jdasu = new JDAddSubject(this, true);
+        jdasu.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
