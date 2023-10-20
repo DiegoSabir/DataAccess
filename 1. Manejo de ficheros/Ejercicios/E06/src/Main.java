@@ -34,11 +34,6 @@ public class Main {
 
             elemRaiz.appendChild(elemPersona);
 
-            elemNombre.appendChild(registroEmpleados.createTextNode("Pablo"));
-            elemPersona.appendChild(elemNombre);
-
-            elemApellidos.appendChild(registroEmpleados.createTextNode("Sierra"));
-            elemPersona.appendChild(elemApellidos);
 
 
             //Paso: Escribir el contenido del documento XML a un archivo
@@ -63,9 +58,11 @@ public class Main {
 
     } catch (TransformerConfigurationException e) {
             throw new RuntimeException(e);
-        } catch (ParserConfigurationException e) {
+        }
+        catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
-        } catch (TransformerException e) {
+        }
+        catch (TransformerException e) {
             throw new RuntimeException(e);
         }
     }
