@@ -43,20 +43,8 @@ public class Main {
             transformador.setOutputProperty(OutputKeys.INDENT, "yes");
             transformador.transform(origen, resultado);
 
-
-            /**
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = dbf.newDocumentBuilder();
-
-            Document regisroEmpleados = builder.parse(new File("Empleados.xml"));
-
-            regisroEmpleados.getDocumentElement().normalize();
-
-
-            System.out.println("El elemento raiz es " +);
-             */
-
-    } catch (TransformerConfigurationException e) {
+    }
+        catch (TransformerConfigurationException e) {
             throw new RuntimeException(e);
         }
         catch (ParserConfigurationException e) {

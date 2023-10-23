@@ -1,0 +1,32 @@
+<books>
+	<book>
+		<title>A Game of Thrones</title>
+		<author>George R. R. Martin</author>
+		<year>1996</year>
+		<price>25.50</price>
+	</book>
+	<book>
+		<title>A Clash of Kings</title>
+		<author>George R. R. Martin</author>
+		<year>1999</year>
+		<price>26.50</price>
+	</book>
+	<book>
+		<title>A Storm of Swords</title>
+		<author>George R. R. Martin</author>
+		<year>2000</year>
+		<price>27.40</price>
+	</book>
+	<book>
+		<title>A Feast for Crows</title>
+		<author>George R. R. Martin</author>
+		<year>2005</year>
+		<price>28.50</price>
+	</book>
+	<book>
+		<title>A Dance with Dragons	</title>
+		<author>George R. R. Martin</author>
+		<year>2011</year>
+		<price>29.40</price>
+	</book>
+</books>

@@ -1,0 +1,27 @@
+<students>
+	<student>
+		<id>1</id>
+		<name>Diego</name>
+		<age>24</age>
+	</student>
+	<student>
+		<id>2</id>
+		<name>Pablo</name>
+		<age>20</age>
+	</student>
+	<student>
+		<id>3</id>
+		<name>Ivan</name>
+		<age>22</age>
+	</student>
+	<student>
+		<id>4</id>
+		<name>Gonzalo</name>
+		<age>23</age>
+	</student>
+	<student>
+		<id>5</id>
+		<name>Marcos</name>
+		<age>21</age>
+	</student>
+</students>
