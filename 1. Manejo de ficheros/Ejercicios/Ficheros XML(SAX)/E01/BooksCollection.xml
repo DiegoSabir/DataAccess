@@ -1,0 +1,27 @@
+<books>
+	<book id="1">
+		<title>A Game of Thrones</title>
+		<author>George R. R. Martin</author>
+		<year>1996</year>
+	</book>
+	<book id="2">
+		<title>A Clash of Kings</title>
+		<author>George R. R. Martin</author>
+		<year>1999</year>
+	</book>
+	<book id="3">
+		<title>A Storm of Swords</title>
+		<author>George R. R. Martin</author>
+		<year>2000</year>
+	</book>
+	<book id="4">
+		<title>A Feast for Crows</title>
+		<author>George R. R. Martin</author>
+		<year>2005</year>
+	</book>
+	<book id="5">
+		<title>A Dance with Dragons	</title>
+		<author>George R. R. Martin</author>
+		<year>2011</year>
+	</book>
+</books>
