@@ -17,23 +17,12 @@ public class Main {
 
             registroEmpleados.setXmlVersion("1.0");
 
+
+
             //Paso 2:Crear elementos y agregarlos al documento
             Element elemRaiz = registroEmpleados.createElement("empleado");
             registroEmpleados.appendChild(elemRaiz);
-
-            Element elemPersona = registroEmpleados.createElement("persona");
-            elemRaiz.appendChild(elemPersona);
-
-            Element elemNombre = registroEmpleados.createElement("nombre");
-            elemNombre.appendChild(registroEmpleados.createTextNode("Antonio"));
-            elemPersona.appendChild(elemNombre);
-
-            Element elemApellidos = registroEmpleados.createElement("apellidos");
-            elemApellidos.appendChild(registroEmpleados.createTextNode("Ribas"));
-            elemPersona.appendChild(elemApellidos);
-
-            elemRaiz.appendChild(elemPersona);
-
+            agregarPersona(registroEmpleados, "Diego", "Ribas");
 
 
             //Paso: Escribir el contenido del documento XML a un archivo
@@ -43,8 +32,7 @@ public class Main {
             transformador.setOutputProperty(OutputKeys.INDENT, "yes");
             transformador.transform(origen, resultado);
 
-    }
-        catch (TransformerConfigurationException e) {
+        } catch (TransformerConfigurationException e) {
             throw new RuntimeException(e);
         }
         catch (ParserConfigurationException e) {
@@ -53,5 +41,20 @@ public class Main {
         catch (TransformerException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static void agregarPersona(Document registroEmpleados, String nombre, String apellidos){
+        Element elemPersona = registroEmpleados.createElement("persona");
+        registroEmpleados.getDocumentElement().appendChild(elemPersona);
+
+        Element elemNombre = registroEmpleados.createElement("nombre");
+        elemNombre.appendChild(registroEmpleados.createTextNode(nombre));
+        elemPersona.appendChild(elemNombre);
+
+        Element elemApellidos = registroEmpleados.createElement("apellidos");
+        elemApellidos.appendChild(registroEmpleados.createTextNode(apellidos));
+        elemPersona.appendChild(elemApellidos);
+
+        registroEmpleados.getDocumentElement().appendChild(elemPersona);
     }
 }
