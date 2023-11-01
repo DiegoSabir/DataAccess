@@ -4,26 +4,24 @@
  * Diseña los métodos necesarios para insertar, modificar, borrar y consultar empleados en un fichero XML
  * haciendo uso de DOM.
  */
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import java.io.File;
+import java.io.FileOutputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Main {
-    private static final String XML_FILE = "DataEmployee2.xml";
     public static void main(String[] args) {
-        ArrayList<Employee> workers = loadEmployeesFromXML();
+        ArrayList<Employee> workers = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
 
         int option;
@@ -35,20 +33,17 @@ public class Main {
                     break;
                 case 2:
                     addEmploy(sc, workers);
-                    saveEmployeesToXML(workers);
                     break;
                 case 3:
                     modifySalary(sc, workers);
-                    saveEmployeesToXML(workers);
                     break;
                 case 4:
                     deleteEmploy(sc, workers);
-                    saveEmployeesToXML(workers);
-                    break;
                 case 5:
                     listWorkers(workers);
                     break;
                 case 6:
+                    saveData(workers);
                     System.out.println("Exiting");
                     break;
                 default:
@@ -148,15 +143,19 @@ public class Main {
         System.out.print("Enter dni: ");
         String dni = sc.next();
         boolean dniRegistered = false;
-        for (Employee worker : workers) {
+        Iterator<Employee> it = workers.iterator();
+
+        while (it.hasNext()) {
+            Employee worker = it.next();
             if (worker.getDni().equals(dni)) {
                 dniRegistered = true;
-                workers.remove(worker);
+                it.remove();
                 System.out.println("Employee deleted successfully");
             }
         }
+
         if (!dniRegistered) {
-            System.out.println("The employee is not on the database");
+            System.out.println("The employee is not in the database");
         }
     }
 
@@ -173,15 +172,27 @@ public class Main {
         }
     }
 
-    private static void saveEmployeesToXML(ArrayList<Employee> workers) {
+    private static void saveData(ArrayList<Employee> workers) {
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.newDocument();
-            Element root = doc.createElement("Employees");
+            File file = new File("EmployeesDataList.xml");
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc;
+
+            if (file.exists()) {
+                doc = db.parse(file);
+            }
+            else {
+                doc = db.newDocument();
+                Element rootElement = doc.createElement("Employees");
+                doc.appendChild(rootElement);
+            }
+
+            Element rootElement = doc.getDocumentElement();
 
             for (Employee worker : workers) {
                 Element employeeElement = doc.createElement("Employee");
+                rootElement.appendChild(employeeElement);
 
                 Element dniElement = doc.createElement("DNI");
                 dniElement.appendChild(doc.createTextNode(worker.getDni()));
@@ -196,55 +207,21 @@ public class Main {
                 employeeElement.appendChild(surnameElement);
 
                 Element salaryElement = doc.createElement("Salary");
-                salaryElement.appendChild(doc.createTextNode(Double.toString(worker.getSalary())));
+                salaryElement.appendChild(doc.createTextNode(String.valueOf(worker.getSalary())));
                 employeeElement.appendChild(salaryElement);
-
-                root.appendChild(employeeElement);
             }
 
-            doc.appendChild(root);
-
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer transformer = tf.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(XML_FILE));
-            transformer.transform(source, result);
+            StreamResult sr = new StreamResult(file);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+            transformer.transform(source, sr);
 
-    private static ArrayList<Employee> loadEmployeesFromXML() {
-        ArrayList<Employee> workers = new ArrayList<>();
-
-        try {
-            File file = new File(XML_FILE);
-            if (file.exists()) {
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder builder = factory.newDocumentBuilder();
-                Document doc = builder.parse(file);
-
-                Element root = doc.getDocumentElement();
-                NodeList employeeNodes = root.getElementsByTagName("Employee");
-
-                for (int i = 0; i < employeeNodes.getLength(); i++) {
-                    Element employeeElement = (Element) employeeNodes.item(i);
-
-                    String dni = employeeElement.getElementsByTagName("DNI").item(0).getTextContent();
-                    String name = employeeElement.getElementsByTagName("Name").item(0).getTextContent();
-                    String surname = employeeElement.getElementsByTagName("Surname").item(0).getTextContent();
-                    double salary = Double.parseDouble(employeeElement.getElementsByTagName("Salary").item(0).getTextContent());
-
-                    workers.add(new Employee(dni, name, surname, salary));
-                }
-            }
+            System.out.println("Data saved successfully");
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        return workers;
     }
 }

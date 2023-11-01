@@ -1,36 +1,21 @@
 /**
- * Desde el departamento de recursos humanos de Umbrella Corp, nos han pedido que diseñemos
- * una pequeña aplicación que les ayude a realizar la gestión de sus empleados. Esta aplicación debe
- * almacenar la siguiente información de cada uno de los empleados.
- * - NIF →9 caracteres (8 números y 1 letra)
- * - Nombre → 10 caracteres
- * - Apellidos → 20 caracteres
- * - Salario
- *
- * La aplicación debe permitir la inserción, consulta, modificación y borrado de empleados.
- * - Consulta → Solicitará al usuario el NIF del empleado a consultar:
- *      Si existe mostrará su información, en caso contrario indicará que el empleado solicitado no existe.
- *
- * - Inserción → Solicitará por teclado la información del nuevo empleado. Antes de insertar
- *   comprobará si el nuevo NIF ya existe:
- *      Si existe se debe informar al usuario.
- *      En caso contrario se insertará.
- *
- * - Modificación → Se solicitará por teclado el NIF del empleado y el nuevo importe de su
- *   salario.
- *      En caso de no existir se informará al usuario.
- *      En caso contrario se realizará la modificación.
- *
- * - Borrado → Se solicitará el NIF del empleado a borrar por teclado. Haremos un borrado
- *   lógico situando su NIF a -1.
- *
- * - Listar → Muestra todos los empleados (No borrados) existentes en el fichero.
- *
- * Realiza una aplicación en Java que cumpla con todos los requisitos anteriores.
+ * En esta práctica vamos a modificar el código del ejercicio 1 para añadir una nueva función
+ * al menú que nos permita leer el contenido del fichero de empleados usando SAX.
+ * NOTA: El formato de salida debe ser idéntico al que se muestra en la lectura DOM.
  */
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
@@ -52,10 +37,12 @@ public class Main {
                     break;
                 case 4:
                     deleteEmploy(sc, workers);
+                    break;
                 case 5:
                     listWorkers(workers);
                     break;
                 case 6:
+                    saveDataSAX(workers, "EmployeesDataList.xml");
                     System.out.println("Exiting");
                     break;
                 default:
@@ -67,21 +54,20 @@ public class Main {
     private static int menu(Scanner sc) {
         int choice;
         while (true) {
-            System.out.println("Choose a option: ");
-            System.out.println("[1] Consult employ data");
-            System.out.println("[2] Add employ");
+            System.out.println("Choose an option: ");
+            System.out.println("[1] Consult employee data");
+            System.out.println("[2] Add employee");
             System.out.println("[3] Modify salary");
-            System.out.println("[4] Delete employ");
-            System.out.println("[5] List workers");
-            System.out.println("[6] Exit");
+            System.out.println("[4] Delete employee");
+            System.out.println("[5] List employees");
+            System.out.println("[6] Save and Exit");
 
             if (sc.hasNextInt()) {
                 choice = sc.nextInt();
                 if (choice >= 1 && choice <= 6) {
                     break;
                 }
-            }
-            else {
+            } else {
                 sc.next();
             }
         }
@@ -183,4 +169,51 @@ public class Main {
             System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
         }
     }
+
+    private static void saveDataSAX(ArrayList<Employee> workers, String filename) {
+        try {
+            File file = new File(filename);
+            EmployeeHandler handler = new EmployeeHandler();
+
+            if (file.exists()) {
+                XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+                xmlReader.setContentHandler(handler);
+                xmlReader.parse(new InputSource(new FileInputStream(filename)));
+            }
+
+            ArrayList<Employee> existingEmployees = handler.getEmployees();
+            existingEmployees.addAll(workers);
+
+            OutputStream os = new FileOutputStream(filename);
+            XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(os);
+            writer.writeStartDocument();
+            writer.writeStartElement("Employees");
+
+            for (Employee employee : existingEmployees) {
+                writer.writeStartElement("Employee");
+                writer.writeStartElement("DNI");
+                writer.writeCharacters(employee.getDni());
+                writer.writeEndElement();
+                writer.writeStartElement("Name");
+                writer.writeCharacters(employee.getName());
+                writer.writeEndElement();
+                writer.writeStartElement("Surname");
+                writer.writeCharacters(employee.getSurname());
+                writer.writeEndElement();
+                writer.writeStartElement("Salary");
+                writer.writeCharacters(String.valueOf(employee.getSalary()));
+                writer.writeEndElement();
+                writer.writeEndElement();
+            }
+
+            writer.writeEndElement();
+            writer.writeEndDocument();
+            writer.close();
+
+            System.out.println("Data saved successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
+
