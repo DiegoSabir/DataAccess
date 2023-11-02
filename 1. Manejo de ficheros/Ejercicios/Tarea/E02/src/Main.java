@@ -14,6 +14,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import javax.xml.transform.OutputKeys;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,6 +40,7 @@ public class Main {
                     break;
                 case 4:
                     deleteEmploy(sc, workers);
+                    break;
                 case 5:
                     listWorkers(workers);
                     break;
@@ -216,6 +218,7 @@ public class Main {
             DOMSource source = new DOMSource(doc);
             StreamResult sr = new StreamResult(file);
 
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.transform(source, sr);
 
             System.out.println("Data saved successfully");
