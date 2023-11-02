@@ -52,7 +52,21 @@ public class Main {
         catch (SQLException e){
             e.printStackTrace();
         }
-
-
+        finally {
+            try{
+                if (resultado != null){
+                    resultado.close();
+                }
+                if (consulta != null){
+                    consulta.close();
+                }
+                if (conexion != null) {
+                    conexion.close();
+                }
+            }
+            catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
     }
 }
