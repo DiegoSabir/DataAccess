@@ -14,6 +14,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import javax.xml.transform.OutputKeys;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Employee> workers = new ArrayList<>();
+        ArrayList<Employee> workers = loadData();
         Scanner sc = new Scanner(System.in);
 
         int option;
@@ -226,5 +228,49 @@ public class Main {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static ArrayList<Employee> loadData() {
+        ArrayList<Employee> workers = new ArrayList<>();
+        try {
+            File file = new File("EmployeesDataList.xml");
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc;
+
+            if (file.exists()) {
+                doc = db.parse(file);
+                Element rootElement = doc.getDocumentElement();
+                if (rootElement != null) {
+                    for (Element employeeElement : getElements(rootElement, "Employee")) {
+                        String dni = getTextContent(employeeElement, "DNI");
+                        String name = getTextContent(employeeElement, "Name");
+                        String surname = getTextContent(employeeElement, "Surname");
+                        double salary = Double.parseDouble(getTextContent(employeeElement, "Salary"));
+                        workers.add(new Employee(dni, name, surname, salary));
+                    }
+                }
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return workers;
+    }
+
+    private static String getTextContent(Element parent, String elementName) {
+        Element element = (Element) parent.getElementsByTagName(elementName).item(0);
+        return element.getTextContent();
+    }
+
+    private static ArrayList<Element> getElements(Element parent, String elementName) {
+        ArrayList<Element> elements = new ArrayList<>();
+        NodeList nl = parent.getElementsByTagName(elementName);
+        for (int i = 0; i < nl.getLength(); i++) {
+            if (nl.item(i) instanceof Element) {
+                elements.add((Element) nl.item(i));
+            }
+        }
+        return elements;
     }
 }
