@@ -4,16 +4,20 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
 
-public class EmployeeHandler extends DefaultHandler {
-    private String currentElement;
+class EmployeeHandler extends DefaultHandler {
+    private ArrayList<Employee> employees;
     private Employee currentEmployee;
-    private ArrayList<Employee> employees = new ArrayList<>();
+    private String currentElement;
+
+    public void EmployeeHandler(ArrayList<Employee> employees) {
+        this.employees = employees;
+    }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         currentElement = qName;
-        if ("Employee".equals(qName)) {
-            currentEmployee = new Employee("123456789", "Defecto1", "Defecto2", 1111);
+        if ("employee".equals(qName)) {
+            currentEmployee = new Employee("", "", "", 0.0);
         }
     }
 
@@ -21,30 +25,30 @@ public class EmployeeHandler extends DefaultHandler {
     public void characters(char[] ch, int start, int length) throws SAXException {
         String value = new String(ch, start, length).trim();
         if (currentEmployee != null) {
-            if ("DNI".equals(currentElement)) {
-                currentEmployee.setDni(value);
-            }
-            else if ("Name".equals(currentElement)) {
-                currentEmployee.setName(value);
-            }
-            else if ("Surname".equals(currentElement)) {
-                currentEmployee.setSurname(value);
-            }
-            else if ("Salary".equals(currentElement)) {
-                currentEmployee.setSalary(Double.parseDouble(value));
+            switch (currentElement) {
+                case "dni":
+                    currentEmployee.setDni(value);
+                    break;
+                case "name":
+                    currentEmployee.setName(value);
+                    break;
+                case "surname":
+                    currentEmployee.setSurname(value);
+                    break;
+                case "salary":
+                    currentEmployee.setSalary(Double.parseDouble(value));
+                    break;
             }
         }
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        if ("Employee".equals(qName)) {
+        if ("employee".equals(qName)) {
             employees.add(currentEmployee);
             currentEmployee = null;
         }
-    }
-
-    public ArrayList<Employee> getEmployees() {
-        return employees;
+        currentElement = "";
     }
 }
+

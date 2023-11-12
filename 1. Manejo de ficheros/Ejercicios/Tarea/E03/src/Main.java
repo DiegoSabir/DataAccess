@@ -3,23 +3,18 @@
  * al menú que nos permita leer el contenido del fichero de empleados usando SAX.
  * NOTA: El formato de salida debe ser idéntico al que se muestra en la lectura DOM.
  */
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-import java.io.FileInputStream;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamWriter;
-
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
-import java.io.File;
 
 public class Main {
+
     public static void main(String[] args) {
         ArrayList<Employee> workers = new ArrayList<>();
+        loadData(workers);
         Scanner sc = new Scanner(System.in);
 
         int option;
@@ -37,13 +32,11 @@ public class Main {
                     break;
                 case 4:
                     deleteEmploy(sc, workers);
-                    break;
                 case 5:
                     listWorkers(workers);
                     break;
                 case 6:
-                    saveDataSAX(workers, "EmployeesDataList.xml");
-                    System.out.println("Exiting");
+                    saveData(workers);
                     break;
                 default:
                     System.out.println("Please enter a valid option (1-6).");
@@ -54,17 +47,18 @@ public class Main {
     private static int menu(Scanner sc) {
         int choice;
         while (true) {
-            System.out.println("Choose an option: ");
-            System.out.println("[1] Consult employee data");
-            System.out.println("[2] Add employee");
+            System.out.println("Choose a option: ");
+            System.out.println("[1] Consult employ data");
+            System.out.println("[2] Add employ");
             System.out.println("[3] Modify salary");
-            System.out.println("[4] Delete employee");
-            System.out.println("[5] List employees");
-            System.out.println("[6] Save and Exit");
+            System.out.println("[4] Delete employ");
+            System.out.println("[5] List workers");
+            System.out.println("[6] Save to XML");
+            System.out.println("[7] Exit");
 
             if (sc.hasNextInt()) {
                 choice = sc.nextInt();
-                if (choice >= 1 && choice <= 6) {
+                if (choice >= 1 && choice <= 7) {
                     break;
                 }
             } else {
@@ -74,7 +68,7 @@ public class Main {
         return choice;
     }
 
-    private static void consultEmployData(Scanner sc, ArrayList<Employee> workers){
+    private static void consultEmployData(Scanner sc, ArrayList<Employee> workers) {
         System.out.print("Enter dni: ");
         String dni = sc.next();
         boolean dniRegistered = false;
@@ -93,7 +87,7 @@ public class Main {
         }
     }
 
-    private static void addEmploy(Scanner sc, ArrayList<Employee> workers){
+    private static void addEmploy(Scanner sc, ArrayList<Employee> workers) {
         System.out.print("Enter dni: ");
         String dni = sc.next();
         boolean dniRegistered = false;
@@ -105,8 +99,7 @@ public class Main {
         }
         if (dniRegistered) {
             System.out.println("DNI REGISTERED");
-        }
-        else {
+        } else {
             System.out.print("Enter name: ");
             String name = sc.next();
             System.out.print("Enter surname: ");
@@ -119,7 +112,7 @@ public class Main {
         }
     }
 
-    private static void modifySalary(Scanner sc, ArrayList<Employee> workers){
+    private static void modifySalary(Scanner sc, ArrayList<Employee> workers) {
         System.out.print("Enter dni: ");
         String dni = sc.next();
         boolean dniRegistered = false;
@@ -137,7 +130,7 @@ public class Main {
         }
     }
 
-    private static void deleteEmploy(Scanner sc, ArrayList<Employee> workers){
+    private static void deleteEmploy(Scanner sc, ArrayList<Employee> workers) {
         System.out.print("Enter dni: ");
         String dni = sc.next();
         boolean dniRegistered = false;
@@ -157,7 +150,7 @@ public class Main {
         }
     }
 
-    private static void listWorkers(ArrayList<Employee> workers){
+    private static void listWorkers(ArrayList<Employee> workers) {
         System.out.println("Employee Data List");
         for (Employee worker : workers) {
             System.out.println("---------------------------------------------------------------------------------");
@@ -170,50 +163,41 @@ public class Main {
         }
     }
 
-    private static void saveDataSAX(ArrayList<Employee> workers, String filename) {
+    private static void saveData(ArrayList<Employee> workers) {
         try {
-            File file = new File(filename);
-            EmployeeHandler handler = new EmployeeHandler();
 
-            if (file.exists()) {
-                XMLReader xmlReader = XMLReaderFactory.createXMLReader();
-                xmlReader.setContentHandler(handler);
-                xmlReader.parse(new InputSource(new FileInputStream(filename)));
-            }
+            File xmlFile = new File("EmployeesDataList.xml");
 
-            ArrayList<Employee> existingEmployees = handler.getEmployees();
-            existingEmployees.addAll(workers);
+            EmployeeHandler xmlHandler = new EmployeeHandler();
+            xmlHandler.EmployeeHandler(workers);
 
-            OutputStream os = new FileOutputStream(filename);
-            XMLStreamWriter writer = XMLOutputFactory.newInstance().createXMLStreamWriter(os);
-            writer.writeStartDocument();
-            writer.writeStartElement("Employees");
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxParser = factory.newSAXParser();
 
-            for (Employee employee : existingEmployees) {
-                writer.writeStartElement("Employee");
-                writer.writeStartElement("DNI");
-                writer.writeCharacters(employee.getDni());
-                writer.writeEndElement();
-                writer.writeStartElement("Name");
-                writer.writeCharacters(employee.getName());
-                writer.writeEndElement();
-                writer.writeStartElement("Surname");
-                writer.writeCharacters(employee.getSurname());
-                writer.writeEndElement();
-                writer.writeStartElement("Salary");
-                writer.writeCharacters(String.valueOf(employee.getSalary()));
-                writer.writeEndElement();
-                writer.writeEndElement();
-            }
-
-            writer.writeEndElement();
-            writer.writeEndDocument();
-            writer.close();
-
-            System.out.println("Data saved successfully");
-        } catch (Exception e) {
+            saxParser.parse(xmlFile, xmlHandler);
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
-}
 
+    private static void loadData(ArrayList<Employee> workers) {
+        try {
+            File file = new File("EmployeesDataList.xml");
+
+            EmployeeHandler handler = new EmployeeHandler();
+            handler.EmployeeHandler(workers);
+
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxParser = factory.newSAXParser();
+
+            saxParser.parse(file, handler);
+
+            System.out.println("Data loaded from EmployeesDataList.xml");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
