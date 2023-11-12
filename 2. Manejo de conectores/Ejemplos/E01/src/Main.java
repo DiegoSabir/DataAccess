@@ -5,16 +5,13 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
 
         //1º URL DE CONEXION
-        String url = "\"jdbc:mysql://localhost/empresa";
+        String url = "jdbc:mysql://localhost:3306/empleados";
         String usuario = "root";
-        String pass = "";
+        String pass = "1234";
 
         Connection conexion = null;
         PreparedStatement consulta = null;
@@ -28,21 +25,38 @@ public class Main {
             conexion = DriverManager.getConnection(url,usuario,pass);
             System.out.println("Se ha establecido la conexion");
 
+            /**
             //Codigo SQL de la consulta
-            String sql = "SELECT * FROM projectos";
+            String sql = "SELECT * FROM proyecto";
 
             consulta = conexion.prepareStatement(sql);
             resultado = consulta.executeQuery();
 
             //Recorre y muestra los resultados
             while (resultado.next()){
-                int numpro = resultado.getInt("Numproy");
-                String nombrep = resultado.getString("Nombreproj");
-                String lugarp = resultado.getString("Lugarproj");
-                int depnumdep = resultado.getInt("departamento_Numdep");
+                int numpro = resultado.getInt(1);
+                String nombrep = resultado.getString(2);
+                String lugarp = resultado.getString(3);
+                int depnumdep = resultado.getInt(4);
                 //Agrega mas columnas segun tu tabla
 
-                System.out.println("NumProy: " + numpro + "Nombreproj:" + nombrep + "Lugarproj:" + lugarp + "departamento_Numdep:" + depnumdep;
+                System.out.println("NumProy: " + numpro + "Nombreproj:" + nombrep + "Lugarproj:" + lugarp + "departamento_Numdep:" + depnumdep);
+            }
+            */
+
+            String sql = "INSERT INTO salarios(codigo, categoria)"
+                    + "VALUES ('001','Programador Junior'),"
+                    + "('002','Programador Senior'),"
+                    + "('003','Analista Junior'),"
+                    + "('004','Analista'),"
+                    + "('005','Analista Senior')";
+
+            consulta = conexion.prepareStatement(sql);
+            int n = consulta.executeUpdate(sql);
+            
+            if (n>0){
+                conexion.commit();
+                System.out.println("Se ha insertado en la BBDD");
             }
 
         }
@@ -69,4 +83,8 @@ public class Main {
             }
         }
     }
+
+    //CREAR TABLA
+
+
 }
