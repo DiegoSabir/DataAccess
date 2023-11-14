@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -16,38 +18,38 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
-/**
- * La estructura XML asume que cada empleado tiene atributos como DNI, Nombre, Apellido y Salario.
- * Las operaciones de entrada/salida de archivos y el análisis XML se realizan utilizando la API DOM (Document Object Model) de Java.
- * Se implementa el manejo de errores mediante bloques try-catch, imprimiendo trazas de pila en caso de excepciones.
- */
 public class Controller {
     private String path;
     File file;
 
     /**
-     * Inicializa los atributos path y file.
-     * Si el archivo no existe, crea un archivo XML vacío.
+     * Inicializa el atributo path con la ruta del archivo XML.
+     * Inicializa el atributo file con un objeto File basado en la ruta.
+     * Si el archivo no existe, intenta crear uno nuevo.
      */
     public Controller() {
         path = "./EmployeesDataList.xml";
         file = new File(path);
-        if (!file.exists())
+        if (!file.exists()){
             try {
                 file.createNewFile();
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
+        }
     }
 
     /**
      * Agrega un nuevo empleado al archivo XML.
-     * Lee el archivo XML existente o crea uno nuevo si no existe.
-     * Crea elementos XML para cada atributo del empleado (DNI, Nombre, Apellido, Salario) y los agrega al documento XML.
-     * Escribe el documento XML actualizado de nuevo en el archivo.
+     * Utiliza el API DOM para crear un documento XML o parsea el existente si ya tiene contenido.
+     * Crea elementos XML (<Employee>, <Dni>, <Name>, <Surname>, <Salary>) y los agrega al documento.
+     * Utiliza un objeto Transformer para escribir el documento XML en el archivo.Utiliza un objeto Transformer para escribir el documento XML en el archivo.
+     * Devuelve true si la operación fue exitosa; de lo contrario, devuelve false.
      */
     public boolean addEmployee(Employee worker) {
         try {
@@ -56,18 +58,19 @@ public class Controller {
             Document registerWorkers = null;
 
             if(file.exists() && file.length() > 0) {
-                registerWorkers= db.parse(file);
+                registerWorkers = db.parse(file);
             }
             else {
                 DOMImplementation dom = db.getDOMImplementation();
                 registerWorkers = dom.createDocument(null, "Employees", null);
                 registerWorkers.setXmlVersion("1.0");
             }
+
             //Creamos un nodo empleado
-            Element employee = registerWorkers.createElement("Employee");
+            Element empleado= registerWorkers.createElement("Employee");
 
             //Lo añadimos como hijo de empleados
-            registerWorkers.getDocumentElement().appendChild(employee);
+            registerWorkers.getDocumentElement().appendChild(empleado);
 
             //Creamos el nodo ID
             Element id = registerWorkers.createElement("Dni");
@@ -79,21 +82,21 @@ public class Controller {
             id.appendChild(text);
 
             //Añadimos el nodo ID a empleado
-            employee.appendChild(id);
+            empleado.appendChild(id);
             Element name = registerWorkers.createElement("Name");
-            text = registerWorkers.createTextNode(worker.getName());
+            text= registerWorkers.createTextNode(worker.getName());
             name.appendChild(text);
-            employee.appendChild(name);
+            empleado.appendChild(name);
 
             Element surname = registerWorkers.createElement("Surname");
-            text = registerWorkers.createTextNode(worker.getSurname());
+            text= registerWorkers.createTextNode(worker.getSurname());
             surname.appendChild(text);
-            employee.appendChild(surname);
+            empleado.appendChild(surname);
 
             Element salary = registerWorkers.createElement("Salary");
-            text = registerWorkers.createTextNode(String.valueOf(worker.getSalary()));
+            text= registerWorkers.createTextNode(String.valueOf(worker.getSalary()));
             salary.appendChild(text);
-            employee.appendChild(salary);
+            empleado.appendChild(salary);
 
             Source source = new DOMSource(registerWorkers);
             Result result = new StreamResult(file);
@@ -127,10 +130,10 @@ public class Controller {
     }
 
     /**
-     * Modifica los datos de un empleado existente en el archivo XML.
-     * Lee el archivo XML y busca al empleado con el DNI proporcionado.
-     * Si se encuentra al empleado, actualiza los elementos XML correspondientes (DNI, Nombre, Apellido, Salario) con los nuevos valores.
-     * Escribe el documento XML modificado de nuevo en el archivo.
+     * Modifica la información de un empleado en el archivo XML.
+     * Utiliza el API DOM para obtener y modificar los nodos correspondientes.
+     * Utiliza un objeto Transformer para escribir el documento XML modificado en el archivo.
+     * Devuelve true si la operación fue exitosa; de lo contrario, devuelve false.
      */
     public boolean modifyEmployee(Employee worker) {
         try {
@@ -138,10 +141,10 @@ public class Controller {
 
             //Creamos el DocumentBuilder para poder obtener el Document
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dc = dbf.newDocumentBuilder();
+            DocumentBuilder db = dbf.newDocumentBuilder();
 
             //Leemos el Document desde el fichero
-            Document registerWorkers = dc.parse(file);
+            Document registerWorkers = db.parse(file);
 
             //Normalizamos el documento para evitar errores de lectura.
             registerWorkers.getDocumentElement().normalize();
@@ -156,6 +159,7 @@ public class Controller {
 
                 //En caso de que ese nodo sea un Elemento
                 if(employe.getNodeType() == Node.ELEMENT_NODE) {
+
                     //Creamos el elemento empleado y leemos su información
                     Element employ = (Element)employe;
 
@@ -197,10 +201,10 @@ public class Controller {
     }
 
     /**
-     * Elimina a un empleado existente del archivo XML.
-     * Lee el archivo XML y busca al empleado con el DNI proporcionado.
-     * Si se encuentra al empleado, elimina el elemento XML correspondiente del documento.
-     * Escribe el documento XML actualizado de nuevo en el archivo.
+     * Elimina un empleado del archivo XML.
+     * Utiliza el API DOM para encontrar y eliminar el nodo correspondiente al empleado.
+     * Utiliza un objeto Transformer para escribir el documento XML modificado en el archivo.
+     * Devuelve true si la operación fue exitosa; de lo contrario, devuelve false.
      */
     public boolean deleteEmployee(Employee worker) {
         try {
@@ -234,8 +238,8 @@ public class Controller {
 
                         Source source = new DOMSource(registerWorkers);
                         Result result = new StreamResult(file);
-                        Transformer transformer = TransformerFactory.newInstance().newTransformer();
-                        transformer.transform(source, result);
+                        Transformer transform = TransformerFactory.newInstance().newTransformer();
+                        transform.transform(source, result);
                         return true;
                     }
                 }
@@ -255,16 +259,17 @@ public class Controller {
         }
         catch (TransformerFactoryConfigurationError e) {
             e.printStackTrace();
-        } catch (TransformerException e) {
+        }
+        catch (TransformerException e) {
             e.printStackTrace();
         }
         return false;
     }
 
     /**
-     * Recupera los datos del empleado basándose en el DNI proporcionado.
-     * Lee el archivo XML y busca al empleado con el DNI especificado.
-     * Si se encuentra, crea y devuelve un objeto Employee con los detalles del empleado.
+     * Consulta la información de un empleado por su DNI.
+     * Utiliza el API DOM para buscar el nodo del empleado y crea un nuevo objeto Employee con los datos encontrados.
+     * Devuelve el objeto Employee o null si no se encuentra.
      */
     public Employee consultEmployeeData(String dni) {
         try {
@@ -287,17 +292,18 @@ public class Controller {
             for(int i = 0; i < employee.getLength(); i++) {
                 //Obtenemos el primer nodo de la lista
                 Node employe = employee.item(i);
-                
+
                 //En caso de que ese nodo sea un Elemento
-                if(employe.getNodeType() == Node.ELEMENT_NODE) {
+                if(employe.getNodeType()==Node.ELEMENT_NODE) {
+
                     //Creamos el elemento empleado y leemos su información
-                    Element employ = (Element)employe;
-                    
-                    if(employ.getElementsByTagName("Dni").item(0).getTextContent().equals(dni)) {
-                        return new Employee(employ.getElementsByTagName("Dni").item(0).getTextContent(),
-                                employ.getElementsByTagName("Name").item(0).getTextContent(),
-                                employ.getElementsByTagName("Surname").item(0).getTextContent(),
-                                Double.valueOf(employ.getElementsByTagName("Salary").item(0).getTextContent()));
+                    Element empleado = (Element)employe;
+                    if(empleado.getElementsByTagName("Dni").item(0).getTextContent().equals(dni)) {
+
+                        return new Employee(empleado.getElementsByTagName("Dni").item(0).getTextContent(),
+                                empleado.getElementsByTagName("Name").item(0).getTextContent(),
+                                empleado.getElementsByTagName("Surname").item(0).getTextContent(),
+                                Double.valueOf(empleado.getElementsByTagName("Salary").item(0).getTextContent()));
                     }
                 }
             }
@@ -315,16 +321,16 @@ public class Controller {
     }
 
     /**
-     * Recupera una lista de todos los empleados almacenados en el archivo XML.
-     * Lee el archivo XML e itera a través de los elementos "Employee", creando un objeto Employee para cada uno.
-     * Devuelve un ArrayList<Employee> que contiene a todos los empleados.
+     * Lista todos los empleados almacenados en el archivo XML.
+     * Utiliza el API DOM para obtener la lista de nodos de empleados y construye objetos Employee.
+     * Devuelve una lista de empleados.
      */
     public ArrayList<Employee> listEmployees(){
         try {
             ArrayList<Employee> workers = new ArrayList<Employee>();
 
             //Creamos el DocumentBuilder para poder obtener el Document
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilderFactory dbf= DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
 
             //Leemos el Document desde el fichero
@@ -335,7 +341,6 @@ public class Controller {
 
             //Creamos una lista de todos los nodos empleado
             NodeList employee = registerWorkers.getElementsByTagName("Employee");
-
             //Mostramos el nº de elementos empleado que hemos encontrado
 
             //Recorremos la lista.
@@ -344,7 +349,7 @@ public class Controller {
                 Node employe = employee.item(i);
 
                 //En caso de que ese nodo sea un Elemento
-                if(employe.getNodeType()==Node.ELEMENT_NODE) {
+                if(employe.getNodeType() == Node.ELEMENT_NODE) {
                     //Creamos el elemento empleado y leemos su información
                     Element employ = (Element)employe;
 
@@ -367,5 +372,60 @@ public class Controller {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Utiliza SAX para manejar el XML.
+     * Define un DefaultHandler que procesa los eventos SAX, como startElement, characters, y endElement.
+     * Construye objetos Employee mientras procesa los elementos del XML.
+     * Devuelve una lista de empleados construida con SAX.
+     */
+    public ArrayList<Employee> EmployeeHandler() {
+        ArrayList<Employee> workers = new ArrayList<>();
+
+        try {
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser parser = factory.newSAXParser();
+            DefaultHandler handler = new DefaultHandler() {
+                Employee worker;
+                String valorActual;
+
+                @Override
+                public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+                    if ("Employee".equals(qName)) {
+                        worker = new Employee();
+                    }
+                }
+
+                @Override
+                public void characters(char[] ch, int start, int length) throws SAXException {
+                    valorActual = new String(ch, start, length);
+                }
+
+                @Override
+                public void endElement(String uri, String localName, String qName) throws SAXException {
+                    if ("Dni".equals(qName)) {
+                        worker.setDni(valorActual);
+                    }
+                    else if ("Name".equals(qName)) {
+                        worker.setName(valorActual);
+                    }
+                    else if ("Surname".equals(qName)) {
+                        worker.setSurname(valorActual);
+                    }
+                    else if ("Salary".equals(qName)) {
+                        worker.setSalary(Double.parseDouble(valorActual));
+                    }
+                    else if ("Employee".equals(qName)) {
+                        workers.add(worker);
+                    }
+                }
+            };
+            parser.parse(file, handler);
+        }
+        catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+        return workers;
     }
 }
