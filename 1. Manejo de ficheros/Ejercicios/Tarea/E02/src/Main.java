@@ -20,8 +20,8 @@ public class Main {
             System.out.println("4. Borrar");
             System.out.println("5. Listar Todos");
             System.out.println("6. Salir");
-            option=sc.nextInt();
 
+            option=sc.nextInt();
             switch (option) {
                 case 1:
                     //Creariamos una función

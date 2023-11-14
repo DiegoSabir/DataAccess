@@ -1,32 +1,41 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Employees>
-    <Employee>
-        <Dni>39462414A</Dni>
-        <Name>Diego</Name>
-        <Surname>Ribas</Surname>
-        <Salary>1000.0</Salary>
-    </Employee>
-    <Employee>
-        <Dni>61172832P</Dni>
-        <Name>Pablo</Name>
-        <Surname>Sierra</Surname>
-        <Salary>500.0</Salary>
-    </Employee>
-    <Employee>
-        <Dni>82259693D</Dni>
-        <Name>Victor</Name>
-        <Surname>Landin</Surname>
-        <Salary>100.0</Salary>
-    </Employee>
-    <Employee>
-        <Dni>59913054D</Dni>
-        <Name>Carlos</Name>
-        <Surname>Perez</Surname>
-        <Salary>10.0</Salary>
-    </Employee>
-	<Employee>
-		<Dni>33564951Q</Dni>
-		<Name>Ivan</Name>
-		<Surname>Santana</Surname>
-		<Salary>1500.0</Salary>
-	</Employee>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Employees>
+      
+  
+  <Employee>
+            
+    
+    <Dni>39462414A</Dni>
+            
+    
+    <Name>Diego</Name>
+            
+    
+    <Surname>Ribas</Surname>
+            
+    
+    <Salary>1000.0</Salary>
+          
+  
+  </Employee>
+    
+  
+  <Employee>
+        
+    <Dni>61172832P</Dni>
+        
+    <Name>Pablo</Name>
+        
+    <Surname>Sierra</Surname>
+        
+    <Salary>1000.0</Salary>
+      
+  </Employee>
+  
+  <Employee>
+    <Dni>82259693D</Dni>
+    <Name>Victor</Name>
+    <Surname>Landin</Surname>
+    <Salary>1000.0</Salary>
+  </Employee>
 </Employees>
