@@ -63,8 +63,12 @@ public class Controller {
                 registerWorkers = dom.createDocument(null, "Employees", null);
                 registerWorkers.setXmlVersion("1.0");
             }
+
             //Creamos un nodo empleado
             Element employee = registerWorkers.createElement("Employee");
+
+            int idWorker = registerWorkers.getElementsByTagName("Employee").getLength() + 1;
+            employee.setAttribute("id", String.valueOf(idWorker));
 
             //Lo añadimos como hijo de empleados
             registerWorkers.getDocumentElement().appendChild(employee);

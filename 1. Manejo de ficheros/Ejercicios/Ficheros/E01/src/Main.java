@@ -5,30 +5,30 @@
  */
 
 import java.io.File;
-import java.util.Objects;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Main m = new Main();
-        m.listarCarpetas();
-    }
-
-    private void listarCarpetas() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Introduce la ruta del directorio: ");
-        String ruta = scanner.nextLine();
-        scanner.close();
-
-        File directorio = new File(ruta);
-
-        if (directorio.exists() && directorio.isDirectory()) {
-            for (String Directorio : Objects.requireNonNull(directorio.list())) {
-                System.out.println(Directorio);
-            }
+        String ruta = ".";
+        if (args.length >= 1) {
+            ruta = args[0];
+        }
+        File file = new File(ruta);
+        if(!file.exists()) {
+            System.out.println("No existe el fichero o directorio (" + ruta + ").");
         }
         else {
-            System.out.println("La ruta especificada no es un directorio válido o no existe.");
+            if(file.isFile()) {
+                System.out.println(ruta + " es un fichero.");
+            }
+            else {
+                System.out.println(ruta+" es un directorio. Contenidos: ");
+                File[] ficheros = file.listFiles(); // Ojo, ficheros o directorios
+                for(File f : ficheros) {
+                    String textoDescr = f.isDirectory() ? "/" :
+                            f.isFile() ? "_" : "?";
+                    System.out.println("(" + textoDescr + ") " + f.getName());
+                }
+            }
         }
     }
 }
