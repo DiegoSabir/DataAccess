@@ -5,10 +5,30 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class Controller {
+    /**
+     * Representa el tamaño total de un registro de empleado en el archivo.
+     * El DNI se almacena como una cadena de 9 caracteres.
+     * El nombre se almacena como una cadena de 10 caracteres.
+     * El apellido se almacena como una cadena de 10 caracteres.
+     * El salario es double, que generalmente ocupa 8 bytes.
+     *
+     * Sumando estos tamaños: 9 + 10 + 10 + 8 = 37
+     *
+     * 66 se eligió para que haya suficiente espacio para almacenar cada campo,
+     * incluso si los datos reales son más cortos.
+     */
     private final int registerSize = 66;
+
+    /**
+     * Se utiliza para realizar operaciones de lectura y escritura en un archivo de acceso aleatorio.
+     */
     private RandomAccessFile raf;
     private String path;
 
+    /**
+     * Establece la ruta predeterminada del archivo en "./EmployeesDataList.dat".
+     * Comprueba si el archivo existe y, de no ser así, lo crea.
+     */
     public Controller() {
         path = "./EmployeesDataList.dat";
         File file = new File(path);
@@ -23,11 +43,19 @@ public class Controller {
         }
     }
 
+    /**
+     * Añade un nuevo empleado al archivo.
+     * Verifica si la posición para los datos del empleado en el archivo no está en uso.
+     * Si la posición está disponible, abre el archivo en modo lectura-escritura, busca la posición adecuada y escribe la información del empleado (DNI, nombre, apellido, salario) en el archivo.
+     */
     public boolean addEmployee(Employee worker) {
         //Nuestro fichero tiene un max de 10 emp.
         //La existencia o no de un emp venia dada por su posición en el mismo
         if(!positionInUse(getPosition(worker.getDni()))) {
             try {
+                /**
+                 * Mode: Son los permisos --> read(r) write(w)
+                 */
                 //Inserto al empleado
                 raf = new RandomAccessFile(new File(this.path), "rw");
                 if(raf.length() <= 0){
@@ -63,6 +91,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Modifica el salario de un empleado existente en el archivo.
+     * Comprueba si la posición para los datos del empleado está en uso.
+     * Si la posición es válida, abre el archivo en modo lectura-escritura, busca la posición adecuada y actualiza la información del salario.
+     */
     public boolean modifySalary(Employee worker) {
         if(positionInUse(getPosition(worker.getDni()))) {
             try {
@@ -96,6 +129,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Elimina a un empleado existente del archivo.
+     * Comprueba si la posición para los datos del empleado está en uso.
+     * Si la posición es válida, abre el archivo en modo lectura-escritura, busca la posición adecuada y escribe caracteres vacíos para marcar la posición como no utilizada.
+     */
     public boolean deleteEmploy(Employee worker) {
         if(positionInUse(getPosition(worker.getDni()))) {
             try {
@@ -123,6 +161,11 @@ public class Controller {
         }
     }
 
+    /**
+     * Recupera y devuelve los datos de un empleado según el DNI proporcionado.
+     * Comprueba si la posición para los datos del empleado está en uso.
+     * Si la posición es válida, abre el archivo en modo lectura, busca la posición adecuada, lee la información del empleado y la devuelve como un objeto Employee.
+     */
     public Employee consultEmployData(String dni) {
         if(positionInUse(getPosition(dni))) {
             try {
@@ -158,7 +201,11 @@ public class Controller {
         }
     }
 
-    //Consultar todos
+    /**
+     * Recupera y devuelve una lista de todos los empleados en el archivo.
+     * Lee el archivo secuencialmente, extrayendo la información del empleado y agregándola a un ArrayList<Employee>.
+     * Omite las posiciones donde no hay datos de empleados.
+     */
     public ArrayList<Employee> listWorkers(){
         try {
             ArrayList<Employee> workers = new ArrayList<Employee>();
@@ -195,10 +242,17 @@ public class Controller {
         }
     }
 
+    /**
+     * Calcula y devuelve una posición en el archivo según el último dígito del número de identificación nacional proporcionado (DNI).
+     */
     private int getPosition(String nif) {
         return Integer.valueOf(nif.substring(0, nif.length() - 1)) % 10;
     }
 
+    /**
+     * Comprueba si la posición especificada en el archivo está en uso leyendo el carácter en esa posición.
+     * Devuelve true si la posición está en uso, false en caso contrario.
+     */
     private boolean positionInUse(int position) {
         try {
             raf = new RandomAccessFile(new File(this.path), "r");
