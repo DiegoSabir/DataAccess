@@ -1,66 +1,66 @@
-import java.sql.*;
+import java.util.Scanner;
+import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String dni;
+        int salario, opcion;
 
-    }
+        Conector.conection();
 
-    public static void conection() throws SQLException {
+        do {
+            System.out.println("Opciones del menu:");
+            System.out.println("==========================================");
+            System.out.println("1. Lista de empleados");
+            System.out.println("2. Consultar NIF");
+            System.out.println("3. Consultar por salario superior");
+            System.out.println("4. Consultar por salario igual o inferior al introducido");
+            System.out.println("==========================================");
+            System.out.println("5. Salir");
+            opcion = sc.nextInt();
 
-        String url = "jdbc:mysql://localhost:3306/empleados";
-        String user = "root";
-        String pass = "1234";
+            switch (opcion) {
+                case 1:
+                    Conector.listarEmpleados();
+                    break;
 
-        Connection conexion = null;
-        PreparedStatement consulta = null;
-        ResultSet resultado = null;
+                case 2:
+                    System.out.println("Introduzca el dni: ");
+                    sc.nextLine(); // Consumir salto de línea pendiente
+                    dni = sc.nextLine();
+                    Conector.consultarDNI(dni);
+                    break;
 
-        try{
-            //CONEXION A LA BASE DE DATOS
-            conexion = DriverManager.getConnection(url, user, pass);
-            System.out.println("Conexion establecida");
+                case 3:
+                    System.out.println("Introduzca el salario: ");
+                    salario = sc.nextInt();
+                    Conector.consultarSalarioSuperior(salario);
+                    break;
 
-            //HACER LA CONSULTA
-            consulta = conexion.prepareStatement("SELECT * FROM empleado");
+                case 4:
+                    System.out.println("Introduzca el salario: ");
+                    salario = sc.nextInt();
+                    Conector.consultarSalarioIgualInferior(salario);
+                    break;
 
-            //EJECUTAR LA CONSULTA
-            resultado = consulta.executeQuery();
+                case 5:
+                    System.out.println("Saliendo del programa");
+                    break;
 
-            //RECORRER EL ResultSet
-            while(resultado.next()) {
-                int numero = resultado.getInt("NSS");
-                String nombre = resultado.getString("Nombre");
-                String apellido = resultado.getString("Apel1");
-                String apellido2 = resultado.getString("Apel2");
-                String sexo = resultado.getString("Sexo");
-                String direccion = resultado.getString("Direccion");
-                String nacimiento = resultado.getString("Fechanac");
-                int salario = resultado.getInt("Salario");
-                int departamento = resultado.getInt("Numdept");
-                String seguridadsocial = resultado.getString("NSSsup");
-
-                System.out.println(numero + " " + nombre + " " + apellido + " " + apellido2);
+                default:
+                    System.out.println("ERROR: Introduzca una de las opciones disponibles");
+                    break;
             }
         }
-        catch(Exception e) {
-            System.out.println("La conexion no ha sido establecida");
+        while(opcion != 5);
+
+        // Una vez finalizadas las operaciones, cerrar la conexión
+        try {
+            Conector.conexion.close();
+        }
+        catch (SQLException e) {
             e.printStackTrace();
-        }
-        finally{
-            try{
-                if (resultado != null) {
-                    resultado.close();
-                }
-                if (consulta != null) {
-                    consulta.close();
-                }
-                if (conexion != null) {
-                    conexion.close();
-                }
-            }
-            catch(SQLException e){
-                e.printStackTrace();
-            }
         }
     }
 }
