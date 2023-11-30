@@ -5,7 +5,8 @@ public class Controlador {
     static Scanner sc = new Scanner(System.in);
 
     public static Empleado crearEmpleado() {
-        String dni;
+        String dni, nombre, apellido1, apellido2, sexo, direccion;
+        int nss, salario;
 
         do {
             System.out.print("Introduzca el DNI: ");
@@ -13,7 +14,6 @@ public class Controlador {
         }
         while (!validacionDNI(dni));
 
-        int nss;
         do {
             System.out.print("Introduzca el numero de la seguridad social: ");
             while (!sc.hasNextInt()) {
@@ -24,14 +24,14 @@ public class Controlador {
         }
         while (!validacionNSS(nss));
 
-        sc.nextLine();
+        sc.nextLine(); //Limpia el buffer tras usar un nextInt
+
         System.out.print("Introduzca el nombre: ");
-        String nombre = sc.nextLine();
+        nombre = sc.nextLine();
         System.out.print("Introduzca el primer apellido: ");
-        String apellido1 = sc.nextLine();
+        apellido1 = sc.nextLine();
         System.out.print("Introduzca el segundo apellido: ");
-        String apellido2 = sc.nextLine();
-        String sexo;
+        apellido2 = sc.nextLine();
 
         do {
             System.out.print("Introduzca el genero: ");
@@ -40,16 +40,16 @@ public class Controlador {
         while (!validacionSexo(sexo));
 
         System.out.print("Introduzca la direccion: ");
-        String direccion = sc.nextLine();
+        direccion = sc.nextLine();
 
         System.out.print("Introduzca el salario: ");
         while (!sc.hasNextInt()) {
             System.out.println("ERROR: Introduzca un salario correcto");
             sc.next();
         }
-        int salario = sc.nextInt();
+        salario = sc.nextInt();
 
-        sc.nextLine();
+        sc.nextLine(); //Limpia el buffer tras usar un nextInt
 
         return new Empleado(dni, nombre, apellido1, apellido2, sexo, direccion, salario, nss);
     }
@@ -58,22 +58,14 @@ public class Controlador {
         System.out.print("Introduzca el numero de departamento: ");
         int numero = sc.nextInt();
 
-        sc.nextLine();
+        sc.nextLine(); //Limpia el buffer tras usar un nextInt
 
         System.out.print("Introduzca el nombre de departamento: ");
         String nombre = sc.nextLine();
 
-        System.out.print("Introduzca la cantidad de empleados: ");
-        int cantidadEmpleados = sc.nextInt();
-
-        sc.nextLine();
-
-        System.out.print("Introduzca el NSS del gerente: ");
-        String nssGerente = sc.nextLine();
-
+        /* EN CASO DE SI HUBIERA SIDO POR TECLADO
         LocalDateTime fechaInicioGerente = LocalDateTime.now();
 
-        /* EN CASO DE SI HUBIERA SIDO POR TECLADO
         System.out.println("Introduzca la fecha de inicio del gerente (año-mes-día hora:minuto:segundo): ");
         System.out.println("Por ejemplo, 2023-12-31T23:59:59");
         String fechaInicioGerenteInput = sc.nextLine();
@@ -90,7 +82,7 @@ public class Controlador {
         }
         */
 
-        return new Departamento(numero, nombre, cantidadEmpleados, nssGerente, fechaInicioGerente);
+        return new Departamento(numero, nombre);
     }
 
     public static boolean validacionDNI(String dni) {
@@ -115,6 +107,7 @@ public class Controlador {
     }
 
     public static boolean validacionNSS(int nss) {
+        //Convierte el número entero nss a su representación en forma de cadena (String). Por ejemplo, si nss es 12345, nssString contendrá "12345".
         String nssString = String.valueOf(nss);
 
         return nssString.length() == 5;
