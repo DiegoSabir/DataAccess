@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Controlador {
@@ -7,7 +8,7 @@ public class Controlador {
         String dni;
 
         do {
-            System.out.print("Introduzca el DNI: : ");
+            System.out.print("Introduzca el DNI: ");
             dni = sc.nextLine();
         }
         while (!validacionDNI(dni));
@@ -49,7 +50,6 @@ public class Controlador {
         int salario = sc.nextInt();
 
         sc.nextLine();
-        sc.close();
 
         return new Empleado(dni, nombre, apellido1, apellido2, sexo, direccion, salario, nss);
     }
@@ -58,10 +58,39 @@ public class Controlador {
         System.out.print("Introduzca el numero de departamento: ");
         int numero = sc.nextInt();
 
+        sc.nextLine();
+
         System.out.print("Introduzca el nombre de departamento: ");
         String nombre = sc.nextLine();
 
-        return new Departamento(numero, nombre);
+        System.out.print("Introduzca la cantidad de empleados: ");
+        int cantidadEmpleados = sc.nextInt();
+
+        sc.nextLine();
+
+        System.out.print("Introduzca el NSS del gerente: ");
+        String nssGerente = sc.nextLine();
+
+        LocalDateTime fechaInicioGerente = LocalDateTime.now();
+
+        /* EN CASO DE SI HUBIERA SIDO POR TECLADO
+        System.out.println("Introduzca la fecha de inicio del gerente (año-mes-día hora:minuto:segundo): ");
+        System.out.println("Por ejemplo, 2023-12-31T23:59:59");
+        String fechaInicioGerenteInput = sc.nextLine();
+
+        LocalDateTime fechaInicioGerente = null;
+
+        try {
+            // Parsear la cadena de fecha proporcionada por el usuario a LocalDateTime
+            fechaInicioGerente = LocalDateTime.parse(fechaInicioGerenteInput);
+        }
+        catch (DateTimeParseException e) {
+            System.out.println("Formato de fecha incorrecto. Se utilizará la fecha y hora actual.");
+            fechaInicioGerente = LocalDateTime.now();
+        }
+        */
+
+        return new Departamento(numero, nombre, cantidadEmpleados, nssGerente, fechaInicioGerente);
     }
 
     public static boolean validacionDNI(String dni) {

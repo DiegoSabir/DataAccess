@@ -11,7 +11,7 @@ public class Main {
 
         do {
             System.out.println("Opciones de menu:");
-            System.out.println("==========================================");
+            System.out.println("====================================================");
             System.out.println("1. Introducir un empleado");
             System.out.println("2. Modificar un empleado");
             System.out.println("3. Eliminar un empleado");
@@ -20,15 +20,16 @@ public class Main {
             System.out.println("6. Consultar por DNI");
             System.out.println("7. Consultar por salario superior");
             System.out.println("8. Consultar por salario igual o inferior");
-            System.out.println("==========================================");
+            System.out.println("9. Subir sueldo a los empleados de un departamento");
+            System.out.println("====================================================");
             System.out.println("Opciones de departamento disponibles:");
-            System.out.println("9. Introducir un departamento");
-            System.out.println("10. Modificar un departamento");
-            System.out.println("11. Eliminar un departamento");
-            System.out.println("12. Listar todos los departamentos");
-            System.out.println("13. Mostrar informacion de un departamento");
-            System.out.println("==========================================");
-            System.out.println("14. Salir");
+            System.out.println("10. Introducir un departamento");
+            System.out.println("11. Modificar un departamento");
+            System.out.println("12. Eliminar un departamento");
+            System.out.println("13. Listar todos los departamentos");
+            System.out.println("14. Mostrar informacion de un departamento");
+            System.out.println("====================================================");
+            System.out.println("15. Salir");
 
             opcion = sc.nextInt();
             switch (opcion) {
@@ -42,6 +43,7 @@ public class Main {
 
                 case 3:
                     System.out.println("Introduzca el dni: ");
+                    sc.nextLine();
                     dni = sc.nextLine();
                     Conector.eliminarEmpleado(dni);
                     break;
@@ -77,24 +79,33 @@ public class Main {
                     break;
 
                 case 9:
-                    Conector.introducirDepartamento(Controlador.crearDepartamento());
+                    System.out.print("Introduzca el número de departamento: ");
+                    numDep = sc.nextInt();
+                    System.out.print("Introduzca el aumento del salario: ");
+                    int aumentoSalario = sc.nextInt();
+                    Conector.subirSueldoEmpleadosDepartamento(numDep, aumentoSalario);
                     break;
 
                 case 10:
-                    Conector.modificarDepartamento(Controlador.crearDepartamento());
+                    Conector.introducirDepartamento(Controlador.crearDepartamento());
                     break;
 
                 case 11:
-                    System.out.print("Introduzca el numero de departamento: ");
-                    numDep = sc.nextInt();
-                    Conector.eliminarDepartamento(numDep);
+                    Conector.modificarDepartamento(Controlador.crearDepartamento());
                     break;
 
                 case 12:
-                    Conector.listarDepartamentos();
+                    System.out.print("Introduzca el numero de departamento: ");
+                    numDep = sc.nextInt();
+                    sc.nextLine();
+                    Conector.eliminarDepartamento(numDep);
                     break;
 
                 case 13:
+                    Conector.listarDepartamentos();
+                    break;
+
+                case 14:
                     System.out.println("Introduzca una de las posibles busquedas:");
                     System.out.println("1. Mostrar por ID");
                     System.out.println("2. Mostrar por nombre");
@@ -116,7 +127,7 @@ public class Main {
                     }
                     break;
 
-                case 14:
+                case 15:
                     System.out.println("Saliendo del programa");
                     break;
 
@@ -125,7 +136,7 @@ public class Main {
                     break;
             }
         }
-        while(opcion != 14);
+        while(opcion != 15);
 
         // Una vez finalizadas las operaciones, cerrar la conexión
         try {

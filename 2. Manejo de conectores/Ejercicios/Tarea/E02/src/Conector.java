@@ -28,13 +28,13 @@ public class Conector {
         try {
             PreparedStatement ps = conexion.prepareStatement(consulta);
 
-            ps.setInt(1, empleado.getNss());
+            ps.setInt(1, empleado.getSalario());
             ps.setString(2, empleado.getNombre());
             ps.setString(3, empleado.getApellido1());
             ps.setString(4, empleado.getApellido2());
             ps.setString(5, empleado.getSexo());
             ps.setString(6, empleado.getDireccion());
-            ps.setInt(7, empleado.getSalario());
+            ps.setInt(7, empleado.getNss());
             ps.setString(8, empleado.getDni());
             ps.executeUpdate();
         }
@@ -49,13 +49,13 @@ public class Conector {
         try {
             PreparedStatement ps = conexion.prepareStatement(consulta);
 
-            ps.setInt(1, empleado.getNss());
+            ps.setInt(1, empleado.getSalario());
             ps.setString(2, empleado.getNombre());
             ps.setString(3, empleado.getApellido1());
             ps.setString(4, empleado.getApellido2());
             ps.setString(5, empleado.getSexo());
             ps.setString(6, empleado.getDireccion());
-            ps.setInt(7, empleado.getSalario());
+            ps.setInt(7, empleado.getNss());
             ps.setString(8, empleado.getDni());
             ps.executeUpdate();
         }
@@ -221,6 +221,23 @@ public class Conector {
         }
     }
 
+    public static void subirSueldoEmpleadosDepartamento(int numDept, int aumento) {
+        String consulta = "UPDATE empleado SET Salario = Salario + ? WHERE NumDept = ?";
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement(consulta);
+
+            ps.setInt(1, aumento);
+            ps.setInt(2, numDept);
+
+            ps.executeUpdate();
+            System.out.println("Los sueldos de los empleados del departamento " + numDept + " han subido " + aumento + "€");
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void introducirDepartamento(Departamento departamento) {
         String consulta = "INSERT INTO departamento (Numdep, Nombredep) VALUES (?, ?)";
 
@@ -242,8 +259,8 @@ public class Conector {
         try {
             PreparedStatement ps = conexion.prepareStatement(consulta);
 
-            ps.setInt(1, departamento.getNumero());
-            ps.setString(2, departamento.getNombre());
+            ps.setString(1, departamento.getNombre());
+            ps.setInt(2, departamento.getNumero());
             ps.executeUpdate();
         }
         catch (SQLException e) {

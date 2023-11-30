@@ -26,6 +26,9 @@ SET time_zone = "+00:00";
 --
 -- Estructura de tabla para la tabla `departamento`
 --
+drop database if exists empleados;
+CREATE DATABASE  IF NOT EXISTS `empleados` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `empleados`;
 
 CREATE TABLE `departamento` (
   `Numdep` tinyint(3) UNSIGNED NOT NULL,
