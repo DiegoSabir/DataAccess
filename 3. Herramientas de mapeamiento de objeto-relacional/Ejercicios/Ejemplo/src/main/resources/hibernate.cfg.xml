@@ -1,55 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <!--
-              If you are using maven to build the project,
-                put hibernate.cfg.xml in the src/main/resources directory so that when you build the war package, it will be automatically be placed in /WEB-INF/classes.
-
-              If not using maven,
-                place the file directly in your WEB-INF/classes directory.
-               -->
-        <!--
-            1, Conexión a la base de datos de configuración4Parámetros
-            hibernate.connection.driver_class, el controlador de la base de datos
-                 hibernate_project_01 en la url es el nombre de la base de datos
-                 El nombre de usuario y la contraseña son las cuentas para acceder a la base de datos.
-         -->
+        <!-- Database connection properties - Driver, URL, user, password -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/Employee</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/test</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">1234</property>
-        <!-- 2, Pantalla de configuración sql  -->
-        <property name="show_sql">true</property>
-        <!--  3, Ya sea para formatear la declaración SQL  -->
-        <property name="format_sql">true</property>
-        <!--  4, Ya sea para confirmar automáticamente la transacción
-            Se evita así usar el session.getTransaction().open() y commit()
-            <property name="hibernate.connection.autocommit">true</property> -->
-        <!--  5, Abra la función de sesión de enlace de hilo actual  -->
+        <!-- Connection Pool Size -->
+        <property name="hibernate.connection.pool_size">1</property>
+
+        <!-- org.hibernate.HibernateException: No CurrentSessionContext configured! -->
         <property name="hibernate.current_session_context_class">thread</property>
-        <property name="hibernate.c3p0.timeout">true</property>
-        <!-- Configuración con c3p0 de las conexiones JDBC
-                Debe estar en el fichero pom la dependencia
-            línea hibernate.c3p0.timeout - para que finalice la sesion al
-            terminar la ejecución del programa.
-             -->
-        <!--
-            6、hibernate.dialect:Dialecto de la base de datos
-             mysql:Límite de paginación
-             oracle:Rownum de paginación
-         -->
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
+
+        <!-- Disable the second-level cache -->
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+        <!-- Outputs the SQL queries, should be disabled in Production -->
         <property name="hibernate.show_sql">true</property>
-        <!--  Creación tablas de la BD -->
-        <!-- <property name="hbm2ddl.auto">create-drop</property> -->
-        <property name="hbm2ddl.auto">update</property>
-        <!--  7a, Configure el archivo de mapeo entre JavaBean y la tabla  -->
-        <!--   Tenga en cuenta que los nombres de los paquetes separados por barras no por puntos  -->
-        <!-- modelos -->
-        <mapping class="teis.dam.modelo.Autor"/>
-        <mapping class="teis.dam.modelo.Libro"/>
-        <!--  7b,Usando JPA- Configure el archivo de mapeo entre JavaBean y la tabla
-            Tenga en cuenta que los nombres de los paquetes separados por puntos
-            <mapping class="mapeos.empleado" />
-             -->
+
+        <!-- Dialect is required to let Hibernate know the Database Type, MySQL, Oracle etc
+            Hibernate 4 automatically figure out Dialect from Database Connection Metadata -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- mapping file, we can use Bean annotations too -->
+        <mapping resource="employee.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

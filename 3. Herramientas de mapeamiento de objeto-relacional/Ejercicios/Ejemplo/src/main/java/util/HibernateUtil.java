@@ -2,7 +2,6 @@ package util;
 
 import java.util.Properties;
 
-
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -11,6 +10,7 @@ import org.hibernate.service.ServiceRegistry;
 import model.Employee1;
 
 public class HibernateUtil {
+
     //XML based configuration
     private static SessionFactory sessionFactory;
 
@@ -69,9 +69,9 @@ public class HibernateUtil {
             //Create Properties, can be read from property files too
             Properties props = new Properties();
             props.put("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-            props.put("hibernate.connection.url", "jdbc:mysql://localhost/TestDB");
-            props.put("hibernate.connection.username", "pankaj");
-            props.put("hibernate.connection.password", "pankaj123");
+            props.put("hibernate.connection.url", "jdbc:mysql://localhost/test");
+            props.put("hibernate.connection.username", "root");
+            props.put("hibernate.connection.password", "");
             props.put("hibernate.current_session_context_class", "thread");
 
             configuration.setProperties(props);

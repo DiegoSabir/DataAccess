@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 
 public class Employee {
+
     private int id;
     private String name;
     private String role;
@@ -32,4 +33,5 @@ public class Employee {
     public void setInsertTime(Date insertTime) {
         this.insertTime = insertTime;
     }
+
 }
