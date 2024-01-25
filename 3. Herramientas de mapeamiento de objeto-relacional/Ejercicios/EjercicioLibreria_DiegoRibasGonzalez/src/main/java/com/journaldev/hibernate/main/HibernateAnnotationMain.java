@@ -5,27 +5,26 @@ import java.util.Date;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import model.Employee1;
+import model.Libro;
 import util.HibernateUtil;
 
-public class HibernateJavaConfigMain {
+public class HibernateAnnotationMain {
 
     public static void main(String[] args) {
-        Employee1 emp = new Employee1();
-        emp.setName("Lisa");
-        emp.setRole("Manager");
-        emp.setInsertTime(new Date());
+        Libro libro = new Libro();
+        libro.setName("David");
+        libro.setRole("Developer");
 
         //Get Session
-        SessionFactory sessionFactory = HibernateUtil.getSessionJavaConfigFactory();
+        SessionFactory sessionFactory = HibernateUtil.getSessionAnnotationFactory();
         Session session = sessionFactory.getCurrentSession();
         //start transaction
         session.beginTransaction();
         //Save the Model object
-        session.save(emp);
+        session.save(libro);
         //Commit transaction
         session.getTransaction().commit();
-        System.out.println("Employee ID="+emp.getId());
+        System.out.println("Libro ID="+libro.getIdLibro());
 
         //terminate session factory, otherwise program won't end
         sessionFactory.close();

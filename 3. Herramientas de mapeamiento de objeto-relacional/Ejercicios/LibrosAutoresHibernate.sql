@@ -1,0 +1,34 @@
+DROP DATABASE IF EXISTS LibrosAutoresHibernate;
+CREATE DATABASE LibrosAutoresHibernate
+	CHARACTER SET	utf32
+	COLLATE			utf32_spanish2_ci;
+USE LibrosAutoresHibernate;
+
+
+CREATE TABLE Libros (
+	IdLibro INT NOT NULL AUTO_INCREMENT,
+    Titulo VARCHAR ( 30 ) DEFAULT NULL,
+    Precio FLOAT DEFAULT NULL,
+
+	PRIMARY KEY ( IdLibro )
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE Autores (
+	DniAutor VARCHAR ( 9 ) NOT NULL,
+    Nombre VARCHAR ( 30 ) DEFAULT NULL,
+    Nacionalidad VARCHAR ( 20 ) DEFAULT NULL,
+
+	PRIMARY KEY ( DniAutor )
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+/*
+CREATE TABLE Telefonos (
+	Dni VARCHAR ( 9 ) NOT NULL,
+    NúmeroTf INT DEFAULT NULL,
+
+	PRIMARY KEY ( Dni ),
+    FOREIGN KEY ( Dni ) REFERENCES Autores ( DniAutor )
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+*/
+

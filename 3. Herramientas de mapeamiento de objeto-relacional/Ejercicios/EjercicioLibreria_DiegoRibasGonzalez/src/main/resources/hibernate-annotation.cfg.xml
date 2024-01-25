@@ -6,7 +6,7 @@
     <session-factory>
         <!-- Database connection properties - Driver, URL, user, password -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost/test</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost/LibrosAutoresHibernate</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">1234</property>
 
@@ -14,6 +14,6 @@
         <property name="hibernate.current_session_context_class">thread</property>
 
         <!-- Mapping with model class containing annotations -->
-        <mapping class="model.Employee1"/>
+        <mapping class="model.Libro"/>
     </session-factory>
 </hibernate-configuration>
