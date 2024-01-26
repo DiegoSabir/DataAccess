@@ -30,5 +30,14 @@ CREATE TABLE Telefonos (
 	PRIMARY KEY ( Dni ),
     FOREIGN KEY ( Dni ) REFERENCES Autores ( DniAutor )
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+CREATE TABLE Libros_Autores (
+    IdLibroAutor INT AUTO_INCREMENT PRIMARY KEY,
+    IdLibro INT,
+    DniAutor VARCHAR(20),
+    FOREIGN KEY (IdLibro) REFERENCES Libros(IdLibro),
+    FOREIGN KEY (DniAutor) REFERENCES Autores(DniAutor)
+);
+
 */
 

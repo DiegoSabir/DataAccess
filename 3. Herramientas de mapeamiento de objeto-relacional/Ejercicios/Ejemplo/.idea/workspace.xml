@@ -5,23 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="78e90cf6-16a5-47ef-b973-ffa24bab9815" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../EjercicioLibreria_DiegoRibasGonzalez/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../EjercicioLibreria_DiegoRibasGonzalez/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../EjercicioLibreria_DiegoRibasGonzalez/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../EjercicioLibreria_DiegoRibasGonzalez/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../EjercicioLibreria_DiegoRibasGonzalez/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../EjercicioLibreria_DiegoRibasGonzalez/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../EjercicioLibreria_DiegoRibasGonzalez/src/main/java/model/Libro.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../EjercicioLibreria_DiegoRibasGonzalez/src/main/java/util/HibernateUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../EjercicioLibreria_DiegoRibasGonzalez/src/main/resources/hibernate-annotation.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/journaldev/hibernate/main/HibernateJavaConfigMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/journaldev/hibernate/main/HibernateMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/Employee.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/employee.hbm.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate-annotation.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate-annotation.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../LibrosAutoresHibernate.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../LibrosAutoresHibernate.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
