@@ -1,7 +1,5 @@
 package com.journaldev.hibernate.main;
 
-import java.util.Date;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -15,16 +13,15 @@ public class HibernateAnnotationMain {
         libro.setTitulo("Danza de dragones");
         libro.setPrecio(28.40f);
 
-        //Get Session
         SessionFactory sessionFactory = HibernateUtil.getSessionAnnotationFactory();
         Session session = sessionFactory.getCurrentSession();
-        //start transaction
+
         session.beginTransaction();
         //Save the Model object
         session.save(libro);
         //Commit transaction
         session.getTransaction().commit();
-        System.out.println("Libro ID="+libro.getIdLibro());
+        System.out.println("Libro ID=" + libro.getIdlibro());
 
         //terminate session factory, otherwise program won't end
         sessionFactory.close();

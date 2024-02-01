@@ -1,33 +1,42 @@
 package model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.*;
 
 @Entity
-@Table(name="Libros", uniqueConstraints={@UniqueConstraint(columnNames={"IdLibro"})})
+@Table(name="libros",
+        uniqueConstraints={@UniqueConstraint(columnNames={"IdLibro"})})
 public class Libro {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="IdLibro", nullable=false, unique=true)
-    private int idLibro;
+    @Column(name="IdLibro", nullable=false, unique=true, length=11)
+    private int idlibro;
 
-    @Column(name="Titulo", length=30, nullable=true)
+    @Column(name="Titulo", nullable=false, length=25)
     private String titulo;
 
-    @Column(name="Precio", nullable=true)
-    private Float precio;
+    @Column(name="Precio", nullable=false)
+    private float precio;
 
-    public int getIdLibro() {
-        return idLibro;
+    @OneToOne
+    @JoinColumn(name = "autor", referencedColumnName="dniautor")
+    private Autor autor;
+
+    public Libro(String titulo, float precio, Autor autor){
+        this.titulo = titulo;
+        this.precio = precio;
+        this.autor = autor;
     }
 
-    public void setIdLibro(int idLibro) {
-        this.idLibro = idLibro;
+    public Libro(){}
+
+    public int getIdlibro() {
+        return idlibro;
+    }
+
+    public void setIdlibro(int idlibro) {
+        this.idlibro = idlibro;
     }
 
     public String getTitulo() {
@@ -38,12 +47,20 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public Float getPrecio() {
+    public float getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Float precio) {
+    public void setPrecio(float precio) {
         this.precio = precio;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
     }
 }
 

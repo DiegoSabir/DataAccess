@@ -7,29 +7,31 @@ USE LibrosAutoresHibernate;
 
 CREATE TABLE Libros (
 	IdLibro INT NOT NULL AUTO_INCREMENT,
-    Titulo VARCHAR ( 30 ) DEFAULT NULL,
-    Precio FLOAT DEFAULT NULL,
-
-	PRIMARY KEY ( IdLibro )
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+    Titulo CHAR ( 30 ) NOT NULL,
+    Precio FLOAT NOT NULL,
+	Autor CHAR(9) NOT NULL,
+    
+	PRIMARY KEY ( IdLibro ),
+    FOREIGN KEY (Autor) REFERENCES Autores (DniAutor) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB;
 
 
 CREATE TABLE Autores (
-	DniAutor VARCHAR ( 9 ) NOT NULL,
-    Nombre VARCHAR ( 30 ) DEFAULT NULL,
-    Nacionalidad VARCHAR ( 20 ) DEFAULT NULL,
+	DniAutor CHAR ( 9 ) NOT NULL,
+    Nombre CHAR ( 30 ) NOT NULL,
+    Nacionalidad CHAR ( 20 ) NOT NULL,
 
 	PRIMARY KEY ( DniAutor )
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB;
 
-/*
+
 CREATE TABLE Telefonos (
-	Dni VARCHAR ( 9 ) NOT NULL,
-    NúmeroTf INT DEFAULT NULL,
+	Dni CHAR ( 9 ) NOT NULL,
+    NumeroTf INT DEFAULT NULL,
 
-	PRIMARY KEY ( Dni ),
-    FOREIGN KEY ( Dni ) REFERENCES Autores ( DniAutor )
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+	PRIMARY KEY ( Dni, NumeroTf ),
+    FOREIGN KEY ( Dni ) REFERENCES Autores ( DniAutor ) ON DELETE CASCADE ON UPDATE cascade
+) ENGINE=InnoDB;
 
 CREATE TABLE Libros_Autores (
     IdLibroAutor INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,6 +40,3 @@ CREATE TABLE Libros_Autores (
     FOREIGN KEY (IdLibro) REFERENCES Libros(IdLibro),
     FOREIGN KEY (DniAutor) REFERENCES Autores(DniAutor)
 );
-
-*/
-
