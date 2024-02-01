@@ -12,8 +12,8 @@ public class HibernateAnnotationMain {
 
     public static void main(String[] args) {
         Libro libro = new Libro();
-        libro.setName("David");
-        libro.setRole("Developer");
+        libro.setTitulo("Danza de dragones");
+        libro.setPrecio(28.40f);
 
         //Get Session
         SessionFactory sessionFactory = HibernateUtil.getSessionAnnotationFactory();
