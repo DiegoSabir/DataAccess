@@ -82,7 +82,7 @@ public class Actuator {
     public List<Libro> getLibroByAutor(String nombre){
         this.startSession();
 
-        String hql = "select l from Libros l join l.autor a where a.nombre = :nombre";
+        String hql = "select * from Libros join libros.autor where autor.nombre = :nombre";
 
         Query query = this.session.createQuery(hql);
         query.setParameter("nombre", nombre);
@@ -94,7 +94,7 @@ public class Actuator {
     public List<Libro> getAllLibros() {
         this.startSession();
 
-        String hql = "from Libros";
+        String hql = "select * from Libros";
 
         Query query = this.session.createQuery(hql);
         List<Libro> libros = query.list();
