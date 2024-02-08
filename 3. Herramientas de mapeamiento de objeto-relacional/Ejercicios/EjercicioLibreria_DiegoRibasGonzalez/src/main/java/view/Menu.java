@@ -12,9 +12,10 @@ public class Menu {
     static Scanner sc = new Scanner(System.in);;
     static Actuator actuator;
     public static void main(String[] args) {
+        actuator = new Actuator();
         int opcion;
         do {
-            System.out.println("\nOpciones del menu:\n"
+            System.out.println("Opciones del menu:\n"
                     + "1. Inserción\n"
                     + "2. Borrado\n"
                     + "3. Consultar\n"
@@ -49,7 +50,7 @@ public class Menu {
     private static void insercion() {
         int opcion;
         do {
-            System.out.println("\nIntroduzca una opcion:\n"
+            System.out.println("Introduzca una opcion:\n"
                     + "1. Añadir autor\n"
                     + "2. Añadir libro\n");
 
@@ -58,6 +59,7 @@ public class Menu {
             switch (opcion) {
                 case 1:
                     try{
+                        sc = new Scanner(System.in);
                         System.out.println("Introduzca dni:");
                         String dni = sc.nextLine();
 
@@ -76,6 +78,7 @@ public class Menu {
 
                 case 2:
                     try{
+                        sc = new Scanner(System.in);
                         System.out.println("Introduzca titulo:");
                         String titulo = sc.nextLine();
 
@@ -109,7 +112,7 @@ public class Menu {
     private static void borrado() {
         int opcion;
         do {
-            System.out.println("\nIntroduzca una opcion:\n"
+            System.out.println("Introduzca una opcion:\n"
                     + "1. Borrado autor\n"
                     + "2. Borrado libro\n");
 
@@ -118,6 +121,7 @@ public class Menu {
             switch (opcion) {
                 case 1:
                     try{
+                        sc = new Scanner(System.in);
                         System.out.println("Introduzca dni del autor");
                         String dniAutor = sc.nextLine();
                         Autor author = actuator.getDni(dniAutor);
@@ -130,6 +134,7 @@ public class Menu {
 
                 case 2:
                     try{
+                        sc = new Scanner(System.in);
                         System.out.println("Introduzca identicacion del libro");
                         int idLibro = sc.nextInt(); sc.nextLine();
 
@@ -151,7 +156,7 @@ public class Menu {
     private static void consultar() {
         int opcion;
         do {
-            System.out.println("\nIntroduzca una opcion:\n"
+            System.out.println("Introduzca una opcion:\n"
                     + "1. Consulta por titulo\n"
                     + "2. Consulta por autor\n"
                     + "3. Consultar todos los libros\n"
@@ -162,6 +167,7 @@ public class Menu {
             switch (opcion) {
                 case 1:
                     try{
+                        sc = new Scanner(System.in);
                         System.out.println("Introduzca el titulo");
                         String titulo = sc.nextLine();
                         Libro libro = actuator.getLibroByTitulo(titulo);
@@ -174,6 +180,7 @@ public class Menu {
 
                 case 2:
                     try{
+                        sc = new Scanner(System.in);
                         System.out.println("Introduzca el nombre del autor");
                         String nombre = sc.nextLine();
                         List libros = actuator.getLibroByAutor(nombre);
