@@ -1,66 +1,58 @@
 package model;
 
-import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import model.Autor;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name="libros",
         uniqueConstraints={@UniqueConstraint(columnNames={"IdLibro"})})
-public class Libro {
+
+public class Libro{
+    @ManyToMany(cascade = {CascadeType.ALL},mappedBy = "libros")
+    private Set<Autor> autores = new HashSet<Autor>();
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="IdLibro", nullable=false, unique=true, length=11)
-    private int idlibro;
+    private int IdLibro;
 
-    @Column(name="Titulo", nullable=false, length=25)
-    private String titulo;
+    @Column(name="Titulo", length=20, nullable=true)
+    private String Titulo;
 
-    @Column(name="Precio", nullable=false)
-    private float precio;
+    @Column(name="Precio", length=20, nullable=true)
+    private double Precio;
 
-    @OneToOne
-    @JoinColumn(name = "autor", referencedColumnName="dniautor")
-    private Autor autor;
-
-    public Libro(String titulo, float precio, Autor autor){
-        this.titulo = titulo;
-        this.precio = precio;
-        this.autor = autor;
+    public int getIdLibro() {
+        return IdLibro;
     }
 
-    public Libro(){}
-
-    public int getIdlibro() {
-        return idlibro;
-    }
-
-    public void setIdlibro(int idlibro) {
-        this.idlibro = idlibro;
+    public void setIdLibro(int IdLibro) {
+        this.IdLibro = IdLibro;
     }
 
     public String getTitulo() {
-        return titulo;
+        return Titulo;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitulo(String Titulo) {
+        this.Titulo = Titulo;
     }
 
-    public float getPrecio() {
-        return precio;
+    public double getPrecio() {
+        return Precio;
     }
 
-    public void setPrecio(float precio) {
-        this.precio = precio;
-    }
-
-    public Autor getAutor() {
-        return autor;
-    }
-
-    public void setAutor(Autor autor) {
-        this.autor = autor;
+    public void setPrecio(double Precio) {
+        this.Precio = Precio;
     }
 }
-

@@ -1,11 +1,16 @@
 package model;
 
-import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -14,10 +19,10 @@ import javax.persistence.UniqueConstraint;
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"DniAutor"})})
 
-public class Autor implements Serializable {
+public class Autor{
     @Id
     @Column(name = "DniAutor", nullable = false, unique = true, length = 9)
-    public String dniautor;
+    private String dniautor;
 
     @Column(name = "Nombre", nullable = false, length = 25)
     private String nombre;
@@ -25,15 +30,11 @@ public class Autor implements Serializable {
     @Column(name = "Nacionalidad", nullable = false, length = 25)
     private String nacionalidad;
 
-    public Autor(String dniautor, String nombre, String nacionalidad) {
-        this.dniautor = dniautor;
-        this.nombre = nombre;
-        this.nacionalidad = nacionalidad;
-    }
-
-    public Autor() {
-
-    }
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "Libros_Autores",
+            joinColumns = @JoinColumn(name = "DniAutor"),
+            inverseJoinColumns = @JoinColumn(name = "IdLibro"))
 
     public String getDniautor() {
         return dniautor;
@@ -58,4 +59,6 @@ public class Autor implements Serializable {
     public void setNacionalidad(String nacionalidad) {
         this.nacionalidad = nacionalidad;
     }
+
+    private Set<Libro> libros = new HashSet<Libro>();
 }
