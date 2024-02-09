@@ -133,10 +133,10 @@ public class HibernateManager {
 
         try {
             System.out.println("¿Qué desea consultar?");
-            System.out.println("1. Datos de un libro por título");
-            System.out.println("2. Todos los libros");
-            System.out.println("3. Todos los libros de un autor");
-            System.out.println("4. Todos los autores con sus libros");
+            System.out.println("1. Datos de un libro por título\n"
+                    + "2. Todos los libros\n"
+                    + "3. Todos los libros de un autor(NO FUNCIONA)\n"
+                    + "4. Todos los autores con sus libros(NO FUNCIONA)");
             int opcion = Integer.parseInt(sc.nextLine());
 
             switch (opcion) {
@@ -151,9 +151,9 @@ public class HibernateManager {
 
                     if (libro != null) {
                         System.out.println("Datos del libro con título '" + tituloLibro + "':");
-                        System.out.println("ID: " + libro.getIdLibro());
-                        System.out.println("Título: " + libro.getTitulo());
-                        System.out.println("Precio: " + libro.getPrecio());
+                        System.out.println("ID: " + libro.getIdLibro()
+                                + "Título: " + libro.getTitulo()
+                                + "Precio: " + libro.getPrecio());
                     }
                     else {
                         System.out.println("No se encontró el libro con el título especificado.");
@@ -163,11 +163,14 @@ public class HibernateManager {
                 case 2:
                     List<Libro> todosLibros = session.createQuery("FROM Libro").list();
                     if (!todosLibros.isEmpty()) {
-                        System.out.println("Lista de todos los libros:");
+                        System.out.println("Lista de todos los libros:\n"
+                                + "------------------------------------");
+
                         for (Libro libroIter : todosLibros) {
-                            System.out.println("ID: " + libroIter.getIdLibro());
-                            System.out.println("Título: " + libroIter.getTitulo());
-                            System.out.println("Precio: " + libroIter.getPrecio());
+                            System.out.println("ID: " + libroIter.getIdLibro()
+                                    + "\nTítulo: " + libroIter.getTitulo()
+                                    + "\nPrecio: " + libroIter.getPrecio());
+                            System.out.println("===============================================");
                         }
                     }
                     else {
@@ -175,6 +178,7 @@ public class HibernateManager {
                     }
                     break;
 
+                /**
                 case 3:
                     System.out.print("Ingrese el nombre del autor: ");
                     String nombreAutor = sc.nextLine();
@@ -220,6 +224,7 @@ public class HibernateManager {
                         System.out.println("No hay autores registrados en la base de datos.");
                     }
                     break;
+                 */
 
                 default:
                     System.out.println("Opción no válida.");
@@ -230,5 +235,4 @@ public class HibernateManager {
             sc.close();
         }
     }
-
 }
