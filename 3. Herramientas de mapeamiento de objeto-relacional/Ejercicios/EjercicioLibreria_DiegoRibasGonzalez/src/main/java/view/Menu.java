@@ -25,15 +25,15 @@ public class Menu {
 
             switch (opcion) {
                 case 1:
-                    insercion();
+                    hb.insertar();
                     break;
 
                 case 2:
-                    borrado();
+                    hb.borrar();
                     break;
 
                 case 3:
-                    consultar();
+                    hb.consultar();
                     break;
 
                 case 4:
