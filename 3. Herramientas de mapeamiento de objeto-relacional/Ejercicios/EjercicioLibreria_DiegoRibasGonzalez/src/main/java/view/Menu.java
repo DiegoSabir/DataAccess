@@ -18,8 +18,7 @@ public class Menu {
                     + "1. Inserción\n"
                     + "2. Borrado\n"
                     + "3. Consultar\n"
-                    + "4. Salir\n" +
-                    "=================");
+                    + "4. Salir\n");
 
             opcion = sc.nextInt();
 
@@ -44,6 +43,6 @@ public class Menu {
                     System.out.println("ERROR: Introduzca una de las opciones disponibles");
             }
         }
-        while (opcion != 5);
+        while (opcion != 4);
     }
 }

@@ -34,3 +34,25 @@ CREATE TABLE Libros_Autores (
     FOREIGN KEY (DniAutor) REFERENCES Autores(DniAutor)
 );
 
+INSERT INTO Autores (DniAutor, Nombre, Nacionalidad) VALUES
+('96904033L', 'Natsu Hyuga', 'Japones'),
+('25019104A', 'Negi Haruba', 'Japones'),
+('71322682G', 'Reiji Miyajima', 'Japones'),
+('19433518J', 'Aka Akasaka', 'Japones'),
+('14385448Y', 'Koyoharu Gotouge', 'Japones'),
+('45264078D', 'Hajime Isayama', 'Japones'),
+('88093003J', 'Hajime Kamoshida', 'Japones'),
+('21393035E', 'Ichiei Ishibumi', 'Japones'),
+('69569159R', 'Kanehito Yamada', 'Japones');
+
+INSERT INTO Libros (Titulo, Precio, Autor) VALUES
+('The Apothecary Diaries', 19.99, '96904033L'),
+('The Quintessential Quintuplets', 15.50, '25019104A'),
+('Rent a Girlfriend', 12.99, '71322682G'),
+('My Favourite Idol', 18.75, '19433518J'),
+('Kaguya Sama Love Is War', 17.25, '19433518J'),
+('Demon Slayer', 14.99, '14385448Y'),
+('Attack On Titan', 16.50, '45264078D'),
+('Rascal Does Not Dream', 10.25, '88093003J'),
+('High School DxD', 11.99, '21393035E'),
+('Frieren Beyond Journey End', 13.75, '69569159R');
