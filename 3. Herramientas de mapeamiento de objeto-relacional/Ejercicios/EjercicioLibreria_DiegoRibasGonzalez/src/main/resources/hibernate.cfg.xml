@@ -14,8 +14,8 @@
         <property name="hibernate.current_session_context_class">thread</property>
 
         <!-- Mapping with model class containing annotations -->
-        <mapping class="com.mycompany.hibernatemaven.Autor"/>
-        <mapping class="com.mycompany.hibernatemaven.Libro"/>
-        <mapping class="com.mycompany.hibernatemaven.LibrosAutores"/>
+        <mapping class="model.Autor"/>
+        <mapping class="model.Libro"/>
+        <mapping class="model.LibrosAutores"/>
     </session-factory>
 </hibernate-configuration>

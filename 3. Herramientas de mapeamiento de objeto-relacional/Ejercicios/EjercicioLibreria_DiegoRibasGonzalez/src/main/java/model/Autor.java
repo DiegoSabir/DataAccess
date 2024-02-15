@@ -19,7 +19,7 @@ import javax.persistence.UniqueConstraint;
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"DniAutor"})})
 
-public class Autor{
+public class Autor {
     @Id
     @Column(name = "DniAutor", nullable = false, unique = true, length = 9)
     private String dniautor;
@@ -35,6 +35,7 @@ public class Autor{
             name = "Libros_Autores",
             joinColumns = @JoinColumn(name = "DniAutor"),
             inverseJoinColumns = @JoinColumn(name = "IdLibro"))
+    private Set<Libro> libros = new HashSet<Libro>();
 
     public String getDniautor() {
         return dniautor;
@@ -60,5 +61,11 @@ public class Autor{
         this.nacionalidad = nacionalidad;
     }
 
-    private Set<Libro> libros = new HashSet<Libro>();
+    public Set<Libro> getLibros() {
+        return libros;
+    }
+
+    public void setLibros(Set<Libro> libros) {
+        this.libros = libros;
+    }
 }
